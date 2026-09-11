@@ -50,9 +50,12 @@ export default function SettingsPanel({
     <div className="settings-panel">
       <h2>设置</h2>
       <p className="hint">
-        在阿里云百炼控制台创建 API Key。密钥只保存在本机用户目录，不会写入代码仓库。也可以把密钥放到项目根目录的{' '}
-        <code>.env</code>（参考 <code>.env.example</code>）。
+        在阿里云百炼控制台创建 API Key。密钥只保存在本机用户目录，不会写入代码仓库。保存操作<b>不会</b>请求
+        DashScope。也可以把密钥放到项目根目录的 <code>.env</code>（参考 <code>.env.example</code>）。
       </p>
+      {settings?.mockMode ? (
+        <p className="mock-banner">模拟模式已开启：聊天走本地假回复，保存密钥也不会联网。</p>
+      ) : null}
 
       <div className="field">
         <label htmlFor="api-key">DashScope API Key</label>

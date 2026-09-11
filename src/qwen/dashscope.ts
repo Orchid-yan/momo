@@ -1,4 +1,5 @@
 import type { ChatMessage } from '../shared/types'
+import type { QwenClient, StreamChatRequest } from './client'
 
 export const SYSTEM_PROMPT =
   '你是 Momo，一只住在用户 Windows 桌面上的可爱小猫。性格温柔、俏皮、有点黏人。请用简体中文回复，语气可爱但不过度卖萌，尽量简短（一两段之内）。你可以陪用户聊天、解压、回答日常问题。不要声称自己能操作电脑、偷看屏幕或录音。'
@@ -52,14 +53,7 @@ export function buildChatCompletionsUrl(baseURL: string): string {
   return `${baseURL.replace(/\/+$/, '')}/chat/completions`
 }
 
-export async function streamChat(options: {
-  apiKey: string
-  baseURL: string
-  model: string
-  messages: ChatMessage[]
-  signal?: AbortSignal
-  onDelta: (text: string) => void
-}): Promise<string> {
+export async function streamChat(options: StreamChatRequest): Promise<string> {
   const url = buildChatCompletionsUrl(options.baseURL)
   const response = await fetch(url, {
     method: 'POST',
@@ -118,3 +112,12 @@ export async function streamChat(options: {
 
   return full
 }
+
+export function createDashScopeClient(): QwenClient {
+  return {
+    kind: 'dashscope',
+    streamChat
+  }
+}
+
+export type { ChatMessage }

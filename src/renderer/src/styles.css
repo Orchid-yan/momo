@@ -204,6 +204,16 @@ select {
   line-height: 1.6;
 }
 
+.mock-banner {
+  align-self: stretch;
+  background: rgba(255, 249, 220, 0.95);
+  color: #7a5a20;
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .bubble {
   max-width: 86%;
   padding: 8px 12px;

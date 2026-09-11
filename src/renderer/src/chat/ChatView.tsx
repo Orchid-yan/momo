@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState, type JSX } from 'react'
-import type { ChatMessage, PublicSettings } from '../../../shared/types'
+import { appendDelta, completeTurn, startTurn, type UiMessage } from '../../../chat/conversation'
+import type { PublicSettings } from '../../../shared/types'
 import SettingsPanel from './SettingsPanel'
-
-interface UiMessage {
-  id: string
-  role: 'user' | 'assistant' | 'error'
-  content: string
-}
 
 export default function ChatView(): JSX.Element {
   const [panel, setPanel] = useState<'chat' | 'settings'>('chat')
@@ -35,60 +30,21 @@ export default function ChatView(): JSX.Element {
       return
     }
 
-    const userMessage: UiMessage = {
-      id: `u-${Date.now()}`,
-      role: 'user',
-      content: text
-    }
-    const assistantId = `a-${Date.now()}`
+    const started = startTurn(messages, text)
     setDraft('')
     setWaiting(true)
-    setMessages((prev) => [...prev, userMessage, { id: assistantId, role: 'assistant', content: '' }])
-
-    const history: ChatMessage[] = [...messages, userMessage]
-      .filter((item) => item.role === 'user' || item.role === 'assistant')
-      .map((item) => ({ role: item.role as 'user' | 'assistant', content: item.content }))
-      .filter((item) => item.content.trim().length > 0)
+    setMessages(started.messages)
 
     const stop = window.momo.onChatChunk((chunk) => {
       if (chunk.type === 'delta' && chunk.text) {
-        setMessages((prev) =>
-          prev.map((item) =>
-            item.id === assistantId ? { ...item, content: item.content + chunk.text } : item
-          )
-        )
+        setMessages((prev) => appendDelta(prev, started.assistantId, chunk.text as string))
       }
     })
 
-    const result = await window.momo.sendChat(history)
+    const result = await window.momo.sendChat(started.history)
     stop()
     setWaiting(false)
-
-    if (result.ok && result.content) {
-      setMessages((prev) =>
-        prev.map((item) =>
-          item.id === assistantId && item.content.trim() === ''
-            ? { ...item, content: result.content as string }
-            : item
-        )
-      )
-    }
-
-    if (!result.ok) {
-      setMessages((prev) => {
-        const withoutEmpty = prev.filter(
-          (item) => !(item.id === assistantId && item.content.trim() === '')
-        )
-        return [
-          ...withoutEmpty,
-          {
-            id: `e-${Date.now()}`,
-            role: 'error',
-            content: result.error || '发送失败，请稍后重试。'
-          }
-        ]
-      })
-    }
+    setMessages((prev) => completeTurn(prev, started.assistantId, result))
   }
 
   return (
@@ -100,7 +56,13 @@ export default function ChatView(): JSX.Element {
           </div>
           <div className="chat-title">
             <h1>Momo</h1>
-            <p>{waiting ? '正在输入…' : '和通义千问聊天'}</p>
+            <p>
+              {waiting
+                ? '正在输入…'
+                : settings?.mockMode
+                  ? '模拟回复（未调用千问）'
+                  : '和通义千问聊天'}
+            </p>
           </div>
           <button
             type="button"
@@ -126,7 +88,10 @@ export default function ChatView(): JSX.Element {
           />
         ) : (
           <>
-            <div className="messages" ref={listRef}>
+            <div className="messages" ref={listRef} data-testid="chat-messages">
+              {settings?.mockMode ? (
+                <div className="mock-banner">当前为模拟模式：发送消息不会请求 DashScope，也不会消耗额度。</div>
+              ) : null}
               {messages.length === 0 ? (
                 <div className="empty-state">
                   你好，我是 Momo。
@@ -137,8 +102,8 @@ export default function ChatView(): JSX.Element {
                 </div>
               ) : (
                 messages.map((item) => (
-                  <div key={item.id} className={`bubble ${item.role}`}>
-                    {item.content || (waiting && item.role === 'assistant' ? '' : item.content)}
+                  <div key={item.id} className={`bubble ${item.role}`} data-testid={`bubble-${item.role}`}>
+                    {item.content}
                     {waiting && item.role === 'assistant' && item.content === '' ? (
                       <span className="typing">
                         <span className="typing-dots" aria-hidden>
@@ -152,18 +117,6 @@ export default function ChatView(): JSX.Element {
                   </div>
                 ))
               )}
-              {waiting && messages[messages.length - 1]?.role !== 'assistant' ? (
-                <div className="bubble assistant">
-                  <span className="typing">
-                    <span className="typing-dots" aria-hidden>
-                      <span />
-                      <span />
-                      <span />
-                    </span>
-                    Momo 正在想…
-                  </span>
-                </div>
-              ) : null}
             </div>
             <form
               className="composer"
@@ -176,6 +129,7 @@ export default function ChatView(): JSX.Element {
                 value={draft}
                 placeholder="跟 Momo 说点什么…"
                 rows={2}
+                data-testid="chat-input"
                 onChange={(event) => setDraft(event.target.value)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' && !event.shiftKey) {
@@ -184,7 +138,7 @@ export default function ChatView(): JSX.Element {
                   }
                 }}
               />
-              <button className="send-btn" type="submit" disabled={waiting || !draft.trim()}>
+              <button className="send-btn" type="submit" disabled={waiting || !draft.trim()} data-testid="chat-send">
                 发送
               </button>
             </form>

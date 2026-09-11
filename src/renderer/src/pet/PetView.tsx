@@ -18,6 +18,7 @@ export default function PetView(): JSX.Element {
         className="pet-cat"
         aria-label="打开 Momo 聊天"
         onClick={openChat}
+        data-testid="momo-pet"
         onContextMenu={(event) => {
           event.preventDefault()
           window.momo.showMenu()

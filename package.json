@@ -13,7 +13,9 @@
     "build:linux": "electron-vite build && electron-builder --linux",
     "pack": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "smoke": "electron-vite build && node scripts/smoke.cjs",
+    "dev:mock": "electron-vite dev"
   },
   "dependencies": {},
   "devDependencies": {

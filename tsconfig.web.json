@@ -19,5 +19,10 @@
       "@renderer/*": ["src/renderer/src/*"]
     }
   },
-  "include": ["src/renderer/src/**/*", "src/preload/*.d.ts", "src/shared/**/*"]
+  "include": [
+    "src/renderer/src/**/*",
+    "src/preload/*.d.ts",
+    "src/shared/**/*",
+    "src/chat/conversation.ts"
+  ]
 }

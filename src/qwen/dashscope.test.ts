@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, afterEach } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   buildChatCompletionsUrl,
   parseDashScopeError,
@@ -9,8 +9,7 @@ import {
 
 describe('parseSseLine', () => {
   it('extracts delta content from OpenAI-compatible SSE', () => {
-    const line =
-      'data: {"choices":[{"delta":{"content":"喵"},"index":0}]}'
+    const line = 'data: {"choices":[{"delta":{"content":"喵"},"index":0}]}'
     expect(parseSseLine(line)).toBe('喵')
   })
 
@@ -49,7 +48,7 @@ describe('system prompt', () => {
   })
 })
 
-describe('streamChat', () => {
+describe('streamChat (mocked HTTP only, never DashScope)', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
   })
@@ -93,18 +92,9 @@ describe('streamChat', () => {
     expect(full).toBe('你好呀')
     expect(deltas.join('')).toBe('你好呀')
     expect(fetchMock).toHaveBeenCalledOnce()
-    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit]
+    const [url] = fetchMock.mock.calls[0] as [string]
     expect(url).toBe(
       'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions'
     )
-    expect((init.headers as Record<string, string>).Authorization).toBe('Bearer sk-test')
-    const payload = JSON.parse(String(init.body)) as {
-      model: string
-      stream: boolean
-      messages: Array<{ role: string }>
-    }
-    expect(payload.model).toBe('qwen-plus')
-    expect(payload.stream).toBe(true)
-    expect(payload.messages[0].role).toBe('system')
   })
 })

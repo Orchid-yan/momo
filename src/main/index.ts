@@ -1,21 +1,33 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeImage, Tray } from 'electron'
 import { join } from 'path'
+import { sendChatMessage } from '../chat/service'
+import { createQwenClient } from '../qwen/factory'
+import { loadEnvFile } from '../settings/env'
 import type { AppSettings, ChatMessage } from '../shared/types'
-import { streamChat } from './dashscope'
-import { getPublicSettings, getResolvedSettings, loadDotEnv, saveSettings } from './settings'
 import {
   createChatWindow,
   createPetWindow,
   destroyWindows,
   hideChatWindow,
+  openChatFromPet,
   toggleChatWindow
-} from './windows'
+} from '../ui/windows'
+import { runSmokeTest } from './smoke'
+import {
+  createElectronSettingsStore,
+  getSettingsStore,
+  initSettingsStore
+} from './store-singleton'
 
 let tray: Tray | null = null
 let chatAbort: AbortController | null = null
 
 function isLinux(): boolean {
   return process.platform === 'linux'
+}
+
+function isSmokeTest(): boolean {
+  return process.env.MOMO_SMOKE_TEST === '1'
 }
 
 if (isLinux()) {
@@ -27,55 +39,40 @@ if (process.env.MOMO_NO_SANDBOX === '1' || isLinux()) {
 }
 
 function registerIpc(): void {
-  ipcMain.handle('settings:get', () => getPublicSettings())
+  const store = getSettingsStore()
+
+  ipcMain.handle('settings:get', () => store.getPublic())
 
   ipcMain.handle('settings:save', (_event, patch: Partial<AppSettings>) => {
-    return saveSettings(patch ?? {})
+    return store.save(patch ?? {})
   })
 
   ipcMain.handle('chat:send', async (event, messages: ChatMessage[]) => {
-    const settings = getResolvedSettings()
-    if (!settings.apiKey) {
-      return {
-        ok: false,
-        error: '还没有设置 API Key。请点击右上角齿轮，填写阿里云百炼（DashScope）密钥。'
-      }
-    }
-
+    const settings = store.resolve()
     chatAbort?.abort()
     chatAbort = new AbortController()
-
-    try {
-      const content = await streamChat({
-        apiKey: settings.apiKey,
-        baseURL: settings.baseURL,
-        model: settings.model,
-        messages,
-        signal: chatAbort.signal,
-        onDelta: (text) => {
-          if (!event.sender.isDestroyed()) {
-            event.sender.send('chat:chunk', { type: 'delta', text })
-          }
+    const result = await sendChatMessage({
+      messages,
+      settings,
+      client: createQwenClient(),
+      signal: chatAbort.signal,
+      onDelta: (text) => {
+        if (!event.sender.isDestroyed()) {
+          event.sender.send('chat:chunk', { type: 'delta', text })
         }
+      }
+    })
+    if (!event.sender.isDestroyed()) {
+      event.sender.send('chat:chunk', {
+        type: result.ok ? 'done' : 'error',
+        error: result.error
       })
-      if (!event.sender.isDestroyed()) {
-        event.sender.send('chat:chunk', { type: 'done' })
-      }
-      return { ok: true, content }
-    } catch (error) {
-      if ((error as { name?: string }).name === 'AbortError') {
-        return { ok: false, error: '已取消' }
-      }
-      const message = error instanceof Error ? error.message : String(error)
-      if (!event.sender.isDestroyed()) {
-        event.sender.send('chat:chunk', { type: 'error', error: message })
-      }
-      return { ok: false, error: message }
     }
+    return result
   })
 
   ipcMain.on('pet:open-chat', () => {
-    toggleChatWindow(false)
+    openChatFromPet()
   })
 
   ipcMain.on('pet:open-settings', () => {
@@ -94,7 +91,7 @@ function registerIpc(): void {
     const menu = Menu.buildFromTemplate([
       {
         label: '打开聊天',
-        click: () => toggleChatWindow(false)
+        click: () => openChatFromPet()
       },
       {
         label: '设置',
@@ -127,28 +124,38 @@ function createTray(): void {
   tray.setToolTip('Momo')
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: '打开聊天', click: () => toggleChatWindow(false) },
+      { label: '打开聊天', click: () => openChatFromPet() },
       { label: '设置', click: () => toggleChatWindow(true) },
       { type: 'separator' },
       { label: '退出 Momo', click: () => app.quit() }
     ])
   )
-  tray.on('click', () => toggleChatWindow(false))
+  tray.on('click', () => openChatFromPet())
 }
 
 function bootstrap(): void {
-  loadDotEnv()
+  loadEnvFile(join(process.cwd(), '.env'))
+  loadEnvFile(join(app.getPath('userData'), '.env'))
+  initSettingsStore(createElectronSettingsStore())
   registerIpc()
   createPetWindow()
   createChatWindow()
-  createTray()
+  if (!isSmokeTest()) {
+    createTray()
+  }
+  if (isSmokeTest()) {
+    void runSmokeTest().catch((error) => {
+      console.error(error)
+      app.exit(1)
+    })
+  }
 }
 
 const ready = (): void => {
   bootstrap()
 }
 
-if (isLinux()) {
+if (isLinux() && !isSmokeTest()) {
   app.whenReady().then(() => setTimeout(ready, 400))
 } else {
   app.whenReady().then(ready)

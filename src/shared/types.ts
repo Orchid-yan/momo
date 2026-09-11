@@ -14,6 +14,8 @@ export interface PublicSettings {
   baseURL: string
   model: string
   hasApiKey: boolean
+  mockMode: boolean
+  apiKeyLooksValid: boolean
 }
 
 export interface ChatChunk {

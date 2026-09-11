@@ -20,6 +20,10 @@
     "vitest.config.ts",
     "src/main/**/*",
     "src/preload/**/*",
-    "src/shared/**/*"
+    "src/shared/**/*",
+    "src/settings/**/*",
+    "src/qwen/**/*",
+    "src/chat/**/*",
+    "src/ui/**/*"
   ]
 }

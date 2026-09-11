@@ -80,7 +80,7 @@ export function createPetWindow(): BrowserWindow {
 
   petWindow.on('closed', () => {
     petWindow = null
-    if (!quitting) {
+    if (!quitting && process.env.MOMO_SMOKE_TEST !== '1') {
       app.quit()
     }
   })
@@ -161,6 +161,11 @@ export function positionChatNearPet(): void {
   }
 
   chatWindow.setPosition(Math.round(x), Math.round(y))
+}
+
+/** Same path as clicking the pet: open (or toggle) the chat card. */
+export function openChatFromPet(): void {
+  toggleChatWindow(false)
 }
 
 export function toggleChatWindow(showSettings = false): void {
