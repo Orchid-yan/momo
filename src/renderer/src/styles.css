@@ -63,6 +63,12 @@ select {
   -webkit-app-region: no-drag;
   width: 168px;
   height: 176px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
   outline: none;
 }
@@ -334,6 +340,12 @@ select {
   background: #fff;
   color: inherit;
   outline: none;
+  font-size: 12px;
+}
+
+.field input.url-input {
+  font-size: 11px;
+  letter-spacing: -0.02em;
 }
 
 .field .row {

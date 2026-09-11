@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, shell } from 'electron'
+import { app, BrowserWindow, screen, shell, type BrowserWindowConstructorOptions } from 'electron'
 import { join } from 'path'
 
 let petWindow: BrowserWindow | null = null
@@ -33,12 +33,12 @@ export function createPetWindow(): BrowserWindow {
   }
 
   const workArea = screen.getPrimaryDisplay().workArea
-  const width = 200
-  const height = 230
+  const width = 210
+  const height = 248
   const x = workArea.x + workArea.width - width - 28
   const y = workArea.y + workArea.height - height - 24
 
-  petWindow = new BrowserWindow({
+  const petOptions: BrowserWindowConstructorOptions = {
     width,
     height,
     x,
@@ -62,7 +62,12 @@ export function createPetWindow(): BrowserWindow {
       sandbox: false,
       backgroundThrottling: false
     }
-  })
+  }
+  if (process.platform === 'linux') {
+    petOptions.type = 'toolbar'
+  }
+
+  petWindow = new BrowserWindow(petOptions)
 
   petWindow.setAlwaysOnTop(true, 'screen-saver')
   petWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
@@ -89,8 +94,8 @@ export function createChatWindow(): BrowserWindow {
   }
 
   chatWindow = new BrowserWindow({
-    width: 380,
-    height: 540,
+    width: 400,
+    height: 560,
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',

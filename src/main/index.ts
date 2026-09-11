@@ -20,8 +20,6 @@ function isLinux(): boolean {
 
 if (isLinux()) {
   app.commandLine.appendSwitch('enable-transparent-visuals')
-  app.commandLine.appendSwitch('disable-gpu')
-  app.disableHardwareAcceleration()
 }
 
 if (process.env.MOMO_NO_SANDBOX === '1' || isLinux()) {

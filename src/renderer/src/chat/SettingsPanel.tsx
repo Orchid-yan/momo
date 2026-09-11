@@ -92,7 +92,9 @@ export default function SettingsPanel({
           <option value="custom">自定义</option>
         </select>
         <input
+          className="url-input"
           aria-label="Base URL"
+          title={baseURL}
           value={baseURL}
           onChange={(event) => setBaseURL(event.target.value)}
         />
