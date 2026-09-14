@@ -2,7 +2,7 @@
 
 My dear kitty!
 
-Momo 是一只住在 Windows 桌面上的小猫，外形是 **2.5D 杏橘色绒毛坐姿**（透明底 WebP 源文件 `src/renderer/src/assets/momo-idle.webp`，渲染器用同视觉的 PNG `src/renderer/src/assets/momo-idle.png`），不是手绘 SVG。她会一直待在最上层、没有窗口边框、背景透明。**按住拖动**可以放到桌面任意位置；**单击**会撒娇（打滚、心心眼等）；**双击**打开和通义千问的聊天框。
+Momo 是一只住在 Windows 桌面上的小猫，外形是 **2.5D 杏橘色绒毛 PNG**（`src/renderer/src/assets/momo-idle.png`，透明底），不是手绘 SVG。她会一直待在最上层、没有窗口边框、背景透明。**按住拖动**可以放到桌面任意位置；**单击**会轻轻晃一晃并冒出中文气泡；**双击**打开和通义千问的聊天框。
 
 架构是**单个 Electron 应用**（没有独立后端服务），模块划分：
 
