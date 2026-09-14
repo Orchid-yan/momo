@@ -12,7 +12,7 @@ export const PET_ACTION_BUBBLES: Record<PetAction, string> = {
   sparkle: '喜欢你'
 }
 
-export const PET_ACTION_MS = 1500
+export const PET_ACTION_MS = 1800
 
 export function nextPetAction(index: number): { action: PetAction; nextIndex: number } {
   const action = PET_ACTIONS[((index % PET_ACTIONS.length) + PET_ACTIONS.length) % PET_ACTIONS.length]

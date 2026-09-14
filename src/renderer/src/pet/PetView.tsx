@@ -117,7 +117,9 @@ export default function PetView(): JSX.Element {
 
   return (
     <div
-      className={`pet-stage${dragging ? ' is-dragging' : ''}`}
+      className={`pet-stage${dragging ? ' is-dragging' : ''}${action ? ` is-acting act-${action}` : ''}`}
+      data-action={action ?? ''}
+      data-bubble={bubble ?? ''}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endGesture}
@@ -127,15 +129,17 @@ export default function PetView(): JSX.Element {
         window.momo.showMenu()
       }}
     >
-      {bubble ? (
-        <div className="pet-speech" data-testid="pet-speech">
-          {bubble}
+      <div className="pet-stack">
+        {bubble ? (
+          <div className="pet-speech" data-testid="pet-speech">
+            {bubble}
+          </div>
+        ) : (
+          <div className="pet-hint">拖我走动 · 点我撒娇 · 双击聊天</div>
+        )}
+        <div className="pet-cat" aria-label="拖动或点按 Momo，双击打开聊天" data-testid="momo-pet">
+          <MomoCat action={action} />
         </div>
-      ) : (
-        <div className="pet-hint">拖我走动 · 点我撒娇 · 双击聊天</div>
-      )}
-      <div className="pet-cat" aria-label="拖动或点按 Momo，双击打开聊天" data-testid="momo-pet">
-        <MomoCat action={action} />
       </div>
     </div>
   )

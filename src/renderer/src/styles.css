@@ -34,6 +34,7 @@ select {
 }
 
 .pet-stage {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -45,45 +46,62 @@ select {
   cursor: grab;
 }
 
+.pet-stack {
+  position: relative;
+  width: 220px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .pet-stage.is-dragging {
   cursor: grabbing;
 }
 
 .pet-hint,
 .pet-speech {
-  margin-bottom: 2px;
-  padding: 5px 12px;
+  position: absolute;
+  left: 50%;
+  z-index: 6;
+  padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(255, 247, 237, 0.94);
-  color: #7a4b3a;
-  font-size: 12px;
-  box-shadow: 0 4px 12px rgba(90, 50, 30, 0.16);
   pointer-events: none;
   white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(90, 50, 30, 0.18);
 }
 
 .pet-hint {
+  top: 10px;
+  background: rgba(255, 247, 237, 0.94);
+  color: #7a4b3a;
+  font-size: 11px;
   opacity: 0;
-  transform: translateY(6px);
+  transform: translateX(-50%) translateY(6px);
   animation: hint-in 0.4s ease 0.6s forwards;
 }
 
 .pet-speech {
-  background: #fff7fb;
-  color: #c45d7a;
-  font-weight: 700;
-  animation: speech-pop 0.25s ease;
-  position: relative;
+  top: 4px;
+  background: #fff0f6;
+  color: #d44874;
+  font-size: 16px;
+  font-weight: 800;
+  border: 2px solid #ffb3c7;
+  animation: speech-pop 0.28s ease;
 }
 
 .pet-speech::after {
   content: '';
   position: absolute;
   left: 50%;
-  bottom: -5px;
-  width: 8px;
-  height: 8px;
-  background: #fff7fb;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: #fff0f6;
+  border-right: 2px solid #ffb3c7;
+  border-bottom: 2px solid #ffb3c7;
   transform: translateX(-50%) rotate(45deg);
 }
 
@@ -569,18 +587,18 @@ select {
 @keyframes hint-in {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
 }
 
 @keyframes speech-pop {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.86);
+    transform: translateX(-50%) translateY(8px) scale(0.86);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
