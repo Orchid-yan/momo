@@ -40,8 +40,7 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  /* Custom drag (IPC) so a still click can still open chat.
-     CSS -webkit-app-region: drag would swallow click events. */
+  /* Custom drag (IPC): still click plays an action; double-click opens chat. */
   -webkit-app-region: no-drag;
   cursor: grab;
 }
@@ -50,30 +49,40 @@ select {
   cursor: grabbing;
 }
 
-.pet-hint {
+.pet-hint,
+.pet-speech {
   margin-bottom: 4px;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(255, 247, 237, 0.92);
+  background: rgba(255, 247, 237, 0.94);
   color: #7a4b3a;
   font-size: 12px;
   box-shadow: 0 4px 12px rgba(90, 50, 30, 0.16);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.pet-hint {
   opacity: 0;
   transform: translateY(6px);
   animation: hint-in 0.4s ease 0.6s forwards;
-  pointer-events: none;
+}
+
+.pet-speech {
+  background: #fff7fb;
+  color: #c45d7a;
+  font-weight: 700;
+  animation: speech-pop 0.25s ease;
 }
 
 .pet-cat {
   -webkit-app-region: no-drag;
-  width: 168px;
+  width: 188px;
   height: 176px;
   padding: 0;
   border: 0;
   background: transparent;
   box-shadow: none;
-  appearance: none;
-  -webkit-appearance: none;
   cursor: inherit;
   outline: none;
   pointer-events: none;
@@ -90,27 +99,87 @@ select {
 }
 
 .momo-bounce {
-  transform-origin: 100px 168px;
+  transform-origin: 110px 184px;
   animation: momo-idle 2.8s ease-in-out infinite;
 }
 
-.momo-clicked .momo-bounce {
-  animation: momo-pounce 0.45s ease;
+.momo-actor {
+  transform-origin: 110px 130px;
+}
+
+.momo-svg.is-acting .momo-bounce {
+  animation: none;
+}
+
+.momo-hearts,
+.momo-heart-eyes,
+.momo-closed-eyes {
+  opacity: 0;
 }
 
 .momo-eyes {
-  transform-origin: 100px 78px;
-  animation: momo-blink 4.6s ease-in-out infinite;
+  transform-origin: 110px 84px;
+  animation: momo-blink 4.8s ease-in-out infinite;
+}
+
+.momo-svg.is-acting .momo-eyes {
+  animation: none;
 }
 
 .momo-tail {
-  transform-origin: 148px 138px;
+  transform-origin: 158px 128px;
   animation: momo-tail 2.4s ease-in-out infinite;
 }
 
 .momo-ear-l {
-  transform-origin: 64px 52px;
+  transform-origin: 78px 58px;
   animation: momo-ear 5.2s ease-in-out infinite;
+}
+
+.momo-paw-l {
+  transform-origin: 86px 166px;
+}
+
+.momo-svg.act-roll .momo-actor {
+  animation: act-roll 1.35s ease-in-out;
+}
+
+.momo-svg.act-nuzzle .momo-actor {
+  animation: act-nuzzle 1.35s ease-in-out;
+}
+
+.momo-svg.act-nuzzle .momo-eyes {
+  opacity: 0;
+}
+
+.momo-svg.act-nuzzle .momo-heart-eyes {
+  opacity: 1;
+}
+
+.momo-svg.act-nuzzle .momo-hearts {
+  opacity: 1;
+  animation: hearts-pop 1.35s ease-out;
+}
+
+.momo-svg.act-stretch .momo-actor {
+  animation: act-stretch 1.35s ease-in-out;
+}
+
+.momo-svg.act-wave .momo-paw-l {
+  animation: act-wave 1.2s ease-in-out;
+}
+
+.momo-svg.act-sparkle .momo-actor {
+  animation: sparkle-hop 1.25s ease;
+}
+
+.momo-svg.act-sparkle .momo-hearts {
+  opacity: 1;
+  animation: hearts-pop 1.25s ease-out;
+}
+
+.momo-svg.act-sparkle .momo-eyes {
+  animation: blink-burst 1.25s ease-in-out;
 }
 
 .chat-shell {
@@ -459,6 +528,123 @@ select {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes speech-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.86);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes act-roll {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  35% {
+    transform: rotate(210deg) translateY(10px);
+  }
+  70% {
+    transform: rotate(330deg) translateY(-6px);
+  }
+  100% {
+    transform: rotate(360deg) translateY(0);
+  }
+}
+
+@keyframes act-nuzzle {
+  0%,
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotate(-14deg) translate(-10px, 6px);
+  }
+  55% {
+    transform: rotate(12deg) translate(8px, 4px);
+  }
+  80% {
+    transform: rotate(-8deg) translate(-4px, 4px);
+  }
+}
+
+@keyframes act-stretch {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  35% {
+    transform: scale(1.2, 0.8) translateY(10px);
+  }
+  60% {
+    transform: scale(0.9, 1.12) translateY(-8px);
+  }
+}
+
+@keyframes act-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-48deg);
+  }
+  50% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(-42deg);
+  }
+}
+
+@keyframes sparkle-hop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  30% {
+    transform: translateY(-16px) scale(1.06);
+  }
+  55% {
+    transform: translateY(0) scale(0.98);
+  }
+  75% {
+    transform: translateY(-8px) scale(1.03);
+  }
+}
+
+@keyframes hearts-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.4);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-18px) scale(1);
+  }
+}
+
+@keyframes blink-burst {
+  0%,
+  20%,
+  45%,
+  70%,
+  100% {
+    transform: scaleY(1);
+  }
+  10%,
+  35%,
+  60% {
+    transform: scaleY(0.08);
   }
 }
 
