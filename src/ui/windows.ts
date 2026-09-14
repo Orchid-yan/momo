@@ -33,8 +33,8 @@ export function createPetWindow(): BrowserWindow {
   }
 
   const workArea = screen.getPrimaryDisplay().workArea
-  const width = 240
-  const height = 360
+  const width = 250
+  const height = 340
   const x = workArea.x + workArea.width - width - 28
   const y = workArea.y + workArea.height - height - 24
 
