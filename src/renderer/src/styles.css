@@ -51,8 +51,8 @@ select {
 
 .pet-hint,
 .pet-speech {
-  margin-bottom: 4px;
-  padding: 4px 10px;
+  margin-bottom: 2px;
+  padding: 5px 12px;
   border-radius: 999px;
   background: rgba(255, 247, 237, 0.94);
   color: #7a4b3a;
@@ -73,12 +73,24 @@ select {
   color: #c45d7a;
   font-weight: 700;
   animation: speech-pop 0.25s ease;
+  position: relative;
+}
+
+.pet-speech::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  background: #fff7fb;
+  transform: translateX(-50%) rotate(45deg);
 }
 
 .pet-cat {
   -webkit-app-region: no-drag;
-  width: 188px;
-  height: 176px;
+  width: 220px;
+  height: 210px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -99,12 +111,12 @@ select {
 }
 
 .momo-bounce {
-  transform-origin: 110px 184px;
+  transform-origin: 120px 206px;
   animation: momo-idle 2.8s ease-in-out infinite;
 }
 
 .momo-actor {
-  transform-origin: 110px 130px;
+  transform-origin: 120px 150px;
 }
 
 .momo-svg.is-acting .momo-bounce {
@@ -113,12 +125,13 @@ select {
 
 .momo-hearts,
 .momo-heart-eyes,
-.momo-closed-eyes {
+.momo-closed-eyes,
+.momo-sparkles {
   opacity: 0;
 }
 
 .momo-eyes {
-  transform-origin: 110px 84px;
+  transform-origin: 120px 92px;
   animation: momo-blink 4.8s ease-in-out infinite;
 }
 
@@ -127,25 +140,37 @@ select {
 }
 
 .momo-tail {
-  transform-origin: 158px 128px;
+  transform-origin: 168px 148px;
   animation: momo-tail 2.4s ease-in-out infinite;
 }
 
 .momo-ear-l {
-  transform-origin: 78px 58px;
+  transform-origin: 88px 72px;
   animation: momo-ear 5.2s ease-in-out infinite;
 }
 
+.momo-ear-r {
+  transform-origin: 152px 72px;
+}
+
 .momo-paw-l {
-  transform-origin: 86px 166px;
+  transform-origin: 92px 186px;
 }
 
 .momo-svg.act-roll .momo-actor {
-  animation: act-roll 1.35s ease-in-out;
+  animation: act-roll 1.4s ease-in-out;
+}
+
+.momo-svg.act-roll .momo-eyes {
+  opacity: 0;
+}
+
+.momo-svg.act-roll .momo-closed-eyes {
+  opacity: 1;
 }
 
 .momo-svg.act-nuzzle .momo-actor {
-  animation: act-nuzzle 1.35s ease-in-out;
+  animation: act-nuzzle 1.4s ease-in-out;
 }
 
 .momo-svg.act-nuzzle .momo-eyes {
@@ -158,28 +183,45 @@ select {
 
 .momo-svg.act-nuzzle .momo-hearts {
   opacity: 1;
-  animation: hearts-pop 1.35s ease-out;
+  animation: hearts-pop 1.4s ease-out;
 }
 
 .momo-svg.act-stretch .momo-actor {
-  animation: act-stretch 1.35s ease-in-out;
+  animation: act-stretch 1.4s ease-in-out;
+}
+
+.momo-svg.act-stretch .momo-eyes {
+  opacity: 0;
+}
+
+.momo-svg.act-stretch .momo-closed-eyes {
+  opacity: 1;
 }
 
 .momo-svg.act-wave .momo-paw-l {
-  animation: act-wave 1.2s ease-in-out;
+  animation: act-wave 1.25s ease-in-out;
+}
+
+.momo-svg.act-wave .momo-ear-l {
+  animation: momo-ear-wave 1.25s ease-in-out;
 }
 
 .momo-svg.act-sparkle .momo-actor {
-  animation: sparkle-hop 1.25s ease;
+  animation: sparkle-hop 1.3s ease;
+}
+
+.momo-svg.act-sparkle .momo-sparkles {
+  opacity: 1;
+  animation: sparkle-twinkle 1.3s ease-out;
 }
 
 .momo-svg.act-sparkle .momo-hearts {
   opacity: 1;
-  animation: hearts-pop 1.25s ease-out;
+  animation: hearts-pop 1.3s ease-out;
 }
 
 .momo-svg.act-sparkle .momo-eyes {
-  animation: blink-burst 1.25s ease-in-out;
+  animation: blink-burst 1.3s ease-in-out;
 }
 
 .chat-shell {
@@ -589,16 +631,26 @@ select {
 @keyframes act-wave {
   0%,
   100% {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateY(0);
   }
   25% {
-    transform: rotate(-48deg);
+    transform: rotate(-52deg) translateY(-10px);
   }
   50% {
-    transform: rotate(-8deg);
+    transform: rotate(-10deg) translateY(-4px);
   }
   75% {
-    transform: rotate(-42deg);
+    transform: rotate(-46deg) translateY(-10px);
+  }
+}
+
+@keyframes momo-ear-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(-18deg);
   }
 }
 
@@ -630,6 +682,21 @@ select {
   100% {
     opacity: 0;
     transform: translateY(-18px) scale(1);
+  }
+}
+
+@keyframes sparkle-twinkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-10px);
   }
 }
 

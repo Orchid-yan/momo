@@ -23,6 +23,9 @@ describe('nextPetAction', () => {
     for (const action of PET_ACTIONS) {
       expect(PET_ACTION_BUBBLES[action].length).toBeGreaterThan(0)
     }
+    expect(PET_ACTION_BUBBLES.wave).toBe('喵～')
+    expect(PET_ACTION_BUBBLES.nuzzle).toBe('再摸摸')
+    expect(PET_ACTION_BUBBLES.roll).toBe('打滚～')
   })
 })
 

@@ -33,8 +33,8 @@ export function createPetWindow(): BrowserWindow {
   }
 
   const workArea = screen.getPrimaryDisplay().workArea
-  const width = 230
-  const height = 280
+  const width = 260
+  const height = 320
   const x = workArea.x + workArea.width - width - 28
   const y = workArea.y + workArea.height - height - 24
 
@@ -143,7 +143,7 @@ export function positionChatNearPet(): void {
   }
   const chatBounds = chatWindow.getBounds()
   const workArea = screen.getPrimaryDisplay().workArea
-  let x = workArea.x + workArea.width - chatBounds.width - 240
+  let x = workArea.x + workArea.width - chatBounds.width - 280
   let y = workArea.y + workArea.height - chatBounds.height - 36
 
   if (petWindow && !petWindow.isDestroyed()) {
