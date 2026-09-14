@@ -1,0 +1,38 @@
+appId: com.momo.desktop-pet
+productName: Momo
+directories:
+  buildResources: resources
+  output: release
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,CHANGELOG.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json,vitest.config.ts}'
+  - '!resources/icon.svg'
+extraResources:
+  - from: resources/icon.png
+    to: icon.png
+asar: true
+win:
+  executableName: Momo
+  icon: icon.png
+  target:
+    - nsis
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+linux:
+  icon: icon.png
+  target:
+    - dir
+  category: Utility
+mac:
+  icon: icon.png
+  target:
+    - dir
