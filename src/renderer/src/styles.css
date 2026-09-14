@@ -49,7 +49,7 @@ select {
 .pet-stack {
   position: relative;
   width: 210px;
-  height: 236px;
+  height: 312px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,7 +108,7 @@ select {
 .pet-cat {
   -webkit-app-region: no-drag;
   width: 200px;
-  height: 214px;
+  height: 286px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -122,124 +122,86 @@ select {
   filter: drop-shadow(0 0 6px rgba(255, 143, 163, 0.8));
 }
 
-.momo-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+.momo-png-wrap {
+  position: relative;
+  width: 200px;
+  height: 286px;
 }
 
-.momo-bounce {
-  transform-origin: 120px 226px;
+.momo-png {
+  width: 200px;
+  height: auto;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+  transform-origin: 50% 88%;
   animation: momo-idle 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 10px 8px rgba(50, 30, 20, 0.28));
 }
 
-.momo-actor {
-  transform-origin: 120px 176px;
-}
-
-.momo-svg.is-acting .momo-bounce {
+.momo-png-wrap.is-acting .momo-png {
   animation: none;
 }
 
-.momo-hearts,
-.momo-heart-eyes,
-.momo-closed-eyes,
-.momo-sparkles {
+.momo-fx {
+  position: absolute;
+  z-index: 2;
   opacity: 0;
+  pointer-events: none;
+  font-size: 22px;
+  color: #ff6b93;
+  text-shadow: 0 2px 6px rgba(255, 107, 147, 0.35);
 }
 
-.momo-eyes {
-  transform-origin: 120px 96px;
-  animation: momo-blink 4.8s ease-in-out infinite;
+.momo-fx-hearts {
+  left: 12px;
+  top: 36px;
 }
 
-.momo-svg.is-acting .momo-eyes {
-  animation: none;
+.momo-fx-hearts-r {
+  left: auto;
+  right: 8px;
+  top: 18px;
+  font-size: 18px;
+  color: #ff8fab;
 }
 
-.momo-tail {
-  transform-origin: 150px 176px;
-  animation: momo-tail 2.4s ease-in-out infinite;
+.momo-fx-sparkles {
+  right: 10px;
+  top: 70px;
+  color: #ffe066;
+  font-size: 16px;
 }
 
-.momo-ear-l {
-  transform-origin: 102px 78px;
-  animation: momo-ear 5.2s ease-in-out infinite;
-}
-
-.momo-ear-r {
-  transform-origin: 138px 78px;
-}
-
-.momo-paw-l {
-  transform-origin: 102px 210px;
-}
-
-.momo-svg.act-roll .momo-actor {
+.momo-png-wrap.act-roll .momo-png {
   animation: act-roll 1.4s ease-in-out;
 }
 
-.momo-svg.act-roll .momo-eyes {
-  opacity: 0;
-}
-
-.momo-svg.act-roll .momo-closed-eyes {
-  opacity: 1;
-}
-
-.momo-svg.act-nuzzle .momo-actor {
+.momo-png-wrap.act-nuzzle .momo-png {
   animation: act-nuzzle 1.4s ease-in-out;
 }
 
-.momo-svg.act-nuzzle .momo-eyes {
-  opacity: 0;
-}
-
-.momo-svg.act-nuzzle .momo-heart-eyes {
-  opacity: 1;
-}
-
-.momo-svg.act-nuzzle .momo-hearts {
-  opacity: 1;
+.momo-png-wrap.act-nuzzle .momo-fx-hearts,
+.momo-png-wrap.act-nuzzle .momo-fx-hearts-r {
   animation: hearts-pop 1.4s ease-out;
 }
 
-.momo-svg.act-stretch .momo-actor {
+.momo-png-wrap.act-stretch .momo-png {
   animation: act-stretch 1.4s ease-in-out;
 }
 
-.momo-svg.act-stretch .momo-eyes {
-  opacity: 0;
-}
-
-.momo-svg.act-stretch .momo-closed-eyes {
-  opacity: 1;
-}
-
-.momo-svg.act-wave .momo-paw-l {
+.momo-png-wrap.act-wave .momo-png {
   animation: act-wave 1.25s ease-in-out;
 }
 
-.momo-svg.act-wave .momo-ear-l {
-  animation: momo-ear-wave 1.25s ease-in-out;
-}
-
-.momo-svg.act-sparkle .momo-actor {
+.momo-png-wrap.act-sparkle .momo-png {
   animation: sparkle-hop 1.3s ease;
+  filter: drop-shadow(0 10px 8px rgba(50, 30, 20, 0.28)) drop-shadow(0 0 10px rgba(255, 214, 106, 0.55));
 }
 
-.momo-svg.act-sparkle .momo-sparkles {
-  opacity: 1;
+.momo-png-wrap.act-sparkle .momo-fx-sparkles,
+.momo-png-wrap.act-sparkle .momo-fx-hearts {
   animation: sparkle-twinkle 1.3s ease-out;
-}
-
-.momo-svg.act-sparkle .momo-hearts {
-  opacity: 1;
-  animation: hearts-pop 1.3s ease-out;
-}
-
-.momo-svg.act-sparkle .momo-eyes {
-  animation: blink-burst 1.3s ease-in-out;
 }
 
 .chat-shell {
@@ -540,47 +502,79 @@ select {
   }
 }
 
-@keyframes momo-pounce {
+@keyframes act-roll {
   0% {
-    transform: translateY(0) scale(1);
+    transform: rotate(0deg) translateY(0);
   }
   40% {
-    transform: translateY(-16px) scale(1.04);
+    transform: rotate(210deg) translateY(6px);
   }
+  75% {
+    transform: rotate(330deg) translateY(-4px);
+  }
+  100% {
+    transform: rotate(360deg) translateY(0);
+  }
+}
+
+@keyframes act-nuzzle {
+  0%,
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotate(-8deg) translate(-4px, 2px);
+  }
+  55% {
+    transform: rotate(7deg) translate(4px, 2px);
+  }
+  80% {
+    transform: rotate(-4deg) translate(-2px, 1px);
+  }
+}
+
+@keyframes act-stretch {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1, 1);
+  }
+  35% {
+    transform: rotate(-6deg) scale(1.04, 0.97) translate(4px, 3px);
+  }
+  60% {
+    transform: rotate(0deg) scale(0.98, 1.03) translate(0, -4px);
+  }
+}
+
+@keyframes act-wave {
+  0%,
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  25% {
+    transform: rotate(-10deg) translateY(-5px);
+  }
+  50% {
+    transform: rotate(6deg) translateY(-2px);
+  }
+  75% {
+    transform: rotate(-8deg) translateY(-5px);
+  }
+}
+
+@keyframes sparkle-hop {
+  0%,
   100% {
     transform: translateY(0) scale(1);
   }
-}
-
-@keyframes momo-blink {
-  0%,
-  88%,
-  100% {
-    transform: scaleY(1);
+  30% {
+    transform: translateY(-10px) scale(1.03);
   }
-  92% {
-    transform: scaleY(0.08);
+  55% {
+    transform: translateY(0) scale(1);
   }
-}
-
-@keyframes momo-tail {
-  0%,
-  100% {
-    transform: rotate(5deg);
-  }
-  50% {
-    transform: rotate(-10deg);
-  }
-}
-
-@keyframes momo-ear {
-  0%,
-  70%,
-  100% {
-    transform: rotate(0deg);
-  }
-  78% {
-    transform: rotate(-12deg);
+  75% {
+    transform: translateY(-5px) scale(1.015);
   }
 }
 
@@ -599,92 +593,6 @@ select {
   100% {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
-  }
-}
-
-@keyframes act-roll {
-  0% {
-    transform: rotate(0deg) translateY(0);
-  }
-  35% {
-    transform: rotate(210deg) translateY(10px);
-  }
-  70% {
-    transform: rotate(330deg) translateY(-6px);
-  }
-  100% {
-    transform: rotate(360deg) translateY(0);
-  }
-}
-
-@keyframes act-nuzzle {
-  0%,
-  100% {
-    transform: rotate(0deg) translate(0, 0);
-  }
-  25% {
-    transform: rotate(-8deg) translate(-6px, 3px);
-  }
-  55% {
-    transform: rotate(7deg) translate(5px, 2px);
-  }
-  80% {
-    transform: rotate(-4deg) translate(-3px, 2px);
-  }
-}
-
-@keyframes act-stretch {
-  0%,
-  100% {
-    transform: rotate(0deg) translate(0, 0) scale(1, 1);
-  }
-  35% {
-    transform: rotate(-7deg) translate(8px, 4px) scale(1.05, 0.97);
-  }
-  60% {
-    transform: rotate(0deg) translate(0, -5px) scale(0.98, 1.04);
-  }
-}
-
-@keyframes act-wave {
-  0%,
-  100% {
-    transform: rotate(0deg) translateY(0);
-  }
-  25% {
-    transform: rotate(-52deg) translateY(-10px);
-  }
-  50% {
-    transform: rotate(-10deg) translateY(-4px);
-  }
-  75% {
-    transform: rotate(-46deg) translateY(-10px);
-  }
-}
-
-@keyframes momo-ear-wave {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  40% {
-    transform: rotate(-18deg);
-  }
-}
-
-@keyframes sparkle-hop {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  30% {
-    transform: translateY(-10px) scale(1.02);
-  }
-  55% {
-    transform: translateY(0) scale(1);
-  }
-  75% {
-    transform: translateY(-5px) scale(1.015);
   }
 }
 
@@ -715,21 +623,6 @@ select {
   100% {
     opacity: 0;
     transform: scale(1) translateY(-10px);
-  }
-}
-
-@keyframes blink-burst {
-  0%,
-  20%,
-  45%,
-  70%,
-  100% {
-    transform: scaleY(1);
-  }
-  10%,
-  35%,
-  60% {
-    transform: scaleY(0.08);
   }
 }
 
