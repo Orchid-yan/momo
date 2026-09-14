@@ -28,6 +28,15 @@ const momo = {
   showMenu: (): void => {
     ipcRenderer.send('pet:menu')
   },
+  beginDrag: (): void => {
+    ipcRenderer.send('pet:drag-start')
+  },
+  dragMove: (): void => {
+    ipcRenderer.send('pet:drag-move')
+  },
+  endDrag: (): void => {
+    ipcRenderer.send('pet:drag-end')
+  },
   onChatChunk: (callback: (chunk: ChatChunk) => void): (() => void) => {
     const listener = (_event: Electron.IpcRendererEvent, chunk: ChatChunk): void => {
       callback(chunk)

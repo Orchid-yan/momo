@@ -4,10 +4,12 @@ import { sendChatMessage } from '../chat/service'
 import { createQwenClient } from '../qwen/factory'
 import { loadEnvFile } from '../settings/env'
 import type { AppSettings, ChatMessage } from '../shared/types'
+import { beginPetDrag, endPetDrag, movePetDrag } from '../ui/petDrag'
 import {
   createChatWindow,
   createPetWindow,
   destroyWindows,
+  getPetWindow,
   hideChatWindow,
   openChatFromPet,
   toggleChatWindow
@@ -69,6 +71,18 @@ function registerIpc(): void {
       })
     }
     return result
+  })
+
+  ipcMain.on('pet:drag-start', () => {
+    beginPetDrag(getPetWindow())
+  })
+
+  ipcMain.on('pet:drag-move', () => {
+    movePetDrag(getPetWindow())
+  })
+
+  ipcMain.on('pet:drag-end', () => {
+    endPetDrag()
   })
 
   ipcMain.on('pet:open-chat', () => {

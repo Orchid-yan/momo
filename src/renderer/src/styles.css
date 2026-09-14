@@ -40,12 +40,17 @@ select {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  -webkit-app-region: drag;
+  /* Custom drag (IPC) so a still click can still open chat.
+     CSS -webkit-app-region: drag would swallow click events. */
+  -webkit-app-region: no-drag;
   cursor: grab;
 }
 
+.pet-stage.is-dragging {
+  cursor: grabbing;
+}
+
 .pet-hint {
-  -webkit-app-region: no-drag;
   margin-bottom: 4px;
   padding: 4px 10px;
   border-radius: 999px;
@@ -69,8 +74,9 @@ select {
   box-shadow: none;
   appearance: none;
   -webkit-appearance: none;
-  cursor: pointer;
+  cursor: inherit;
   outline: none;
+  pointer-events: none;
 }
 
 .pet-cat:focus-visible {

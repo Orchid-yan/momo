@@ -25,6 +25,15 @@ export async function runSmokeTest(): Promise<void> {
     pet?.showInactive()
     await wait(300)
 
+    let windowMoved = false
+    if (pet && !pet.isDestroyed()) {
+      const [sx, sy] = pet.getPosition()
+      pet.setPosition(sx - 80, sy - 60)
+      await wait(50)
+      const [nx, ny] = pet.getPosition()
+      windowMoved = nx !== sx || ny !== sy
+    }
+
     openChatFromPet()
     await wait(300)
 
@@ -44,9 +53,12 @@ export async function runSmokeTest(): Promise<void> {
       ok:
         result.ok === true &&
         chatOpened &&
+        windowMoved &&
         looksLikeApiKey(saved.apiKey) &&
         Boolean(result.content?.includes('【模拟】')),
       chatOpened,
+      windowMoved,
+      petMovable: pet?.isMovable() ?? false,
       petVisible,
       mockMode: isMockQwen(),
       savedApiKeyLooksValid: looksLikeApiKey(saved.apiKey),

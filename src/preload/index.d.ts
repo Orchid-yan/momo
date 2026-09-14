@@ -15,6 +15,9 @@ export interface MomoApi {
   closeChat: () => void
   quit: () => void
   showMenu: () => void
+  beginDrag: () => void
+  dragMove: () => void
+  endDrag: () => void
   onChatChunk: (callback: (chunk: ChatChunk) => void) => () => void
   onShowSettings: (callback: () => void) => () => void
 }
