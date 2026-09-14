@@ -10,166 +10,213 @@ export default function MomoCat({ action = null }: MomoCatProps): JSX.Element {
   return (
     <svg
       className={`momo-svg${acting}`}
-      viewBox="0 0 240 220"
+      viewBox="0 0 240 240"
       role="img"
-      aria-label="Momo，一只圆滚滚的小猫"
+      aria-label="Momo，一只坐着的奶油色小猫"
     >
       <defs>
-        <radialGradient id="momoFur" cx="38%" cy="28%" r="72%">
-          <stop offset="0%" stopColor="#fff7ee" />
-          <stop offset="48%" stopColor="#ffd9b4" />
-          <stop offset="100%" stopColor="#f3b184" />
+        <radialGradient id="momoFur" cx="36%" cy="28%" r="74%">
+          <stop offset="0%" stopColor="#fff8ee" />
+          <stop offset="42%" stopColor="#f6d4b4" />
+          <stop offset="100%" stopColor="#e4ae84" />
         </radialGradient>
-        <radialGradient id="momoBelly" cx="50%" cy="35%" r="70%">
+        <radialGradient id="momoBelly" cx="50%" cy="30%" r="70%">
           <stop offset="0%" stopColor="#fffdf9" />
-          <stop offset="100%" stopColor="#ffe8d2" />
+          <stop offset="100%" stopColor="#ffe9d4" />
         </radialGradient>
-        <radialGradient id="momoEarIn" cx="50%" cy="72%" r="65%">
-          <stop offset="0%" stopColor="#ffd0de" />
-          <stop offset="100%" stopColor="#ff8fb3" />
+        <radialGradient id="momoEarIn" cx="50%" cy="70%" r="62%">
+          <stop offset="0%" stopColor="#ffd7e2" />
+          <stop offset="100%" stopColor="#ff9bb4" />
         </radialGradient>
-        <radialGradient id="momoEye" cx="32%" cy="28%" r="75%">
-          <stop offset="0%" stopColor="#6a4632" />
-          <stop offset="100%" stopColor="#2c1810" />
+        <radialGradient id="momoIris" cx="36%" cy="30%" r="72%">
+          <stop offset="0%" stopColor="#f3cc62" />
+          <stop offset="48%" stopColor="#d09132" />
+          <stop offset="100%" stopColor="#6b4014" />
         </radialGradient>
-        <radialGradient id="momoNose" cx="50%" cy="30%" r="70%">
-          <stop offset="0%" stopColor="#ffb3b8" />
-          <stop offset="100%" stopColor="#f07a86" />
+        <radialGradient id="momoNose" cx="50%" cy="28%" r="70%">
+          <stop offset="0%" stopColor="#ffc2c6" />
+          <stop offset="100%" stopColor="#ef7e8c" />
         </radialGradient>
       </defs>
 
-      <ellipse className="momo-shadow" cx="120" cy="206" rx="52" ry="8" fill="rgba(74,50,40,0.18)" />
+      <ellipse className="momo-shadow" cx="120" cy="226" rx="36" ry="6" fill="rgba(74,50,40,0.16)" />
 
       <g className="momo-bounce">
         <g className="momo-actor">
           <g className="momo-hearts" aria-hidden>
             <path
-              d="M46 58 C46 49 57 47 62 56 C67 47 78 49 78 58 C78 70 62 80 62 80 C62 80 46 70 46 58Z"
+              d="M52 70 C52 62 62 60 66 68 C70 60 80 62 80 70 C80 80 66 90 66 90 C66 90 52 80 52 70Z"
               fill="#ff8fab"
             />
             <path
-              d="M162 36 C162 28 172 26 176 34 C180 26 190 28 190 36 C190 46 176 55 176 55 C176 55 162 46 162 36Z"
+              d="M164 40 C164 33 173 31 176 39 C179 31 188 33 188 40 C188 50 176 58 176 58 C176 58 164 50 164 40Z"
               fill="#ff6b93"
             />
             <path
-              d="M186 78 C186 72 193 71 196 76 C199 71 206 72 206 78 C206 86 196 92 196 92 C196 92 186 86 186 78Z"
+              d="M190 86 C190 80 197 79 199 84 C201 79 208 80 208 86 C208 94 199 100 199 100 C199 100 190 94 190 86Z"
               fill="#ffb3c6"
             />
           </g>
 
           <g className="momo-sparkles" aria-hidden>
-            <path d="M28 96 L31 104 L39 107 L31 110 L28 118 L25 110 L17 107 L25 104 Z" fill="#ffe066" />
-            <path d="M208 58 L210 64 L216 66 L210 68 L208 74 L206 68 L200 66 L206 64 Z" fill="#fff1a8" />
-            <path d="M200 120 L202 125 L207 127 L202 129 L200 134 L198 129 L193 127 L198 125 Z" fill="#ffd6ea" />
+            <path d="M32 92 L35 100 L43 103 L35 106 L32 114 L29 106 L21 103 L29 100 Z" fill="#ffe066" />
+            <path d="M206 56 L208 62 L214 64 L208 66 L206 72 L204 66 L198 64 L204 62 Z" fill="#fff1a8" />
+            <path d="M198 128 L200 133 L205 135 L200 137 L198 142 L196 137 L191 135 L196 133 Z" fill="#ffd6ea" />
           </g>
 
           <g className="momo-tail">
             <path
-              d="M168 148 C204 138 214 96 192 72"
+              d="M150 176 C186 168 198 124 184 96 C176 78 160 74 166 56"
               fill="none"
-              stroke="#f0b48a"
-              strokeWidth="18"
-              strokeLinecap="round"
-            />
-            <path
-              d="M168 148 C204 138 214 96 192 72"
-              fill="none"
-              stroke="#ffe3c8"
+              stroke="#e8b48a"
               strokeWidth="11"
               strokeLinecap="round"
             />
-            <circle cx="192" cy="72" r="9" fill="#ffe3c8" />
+            <path
+              d="M150 176 C186 168 198 124 184 96 C176 78 160 74 166 56"
+              fill="none"
+              stroke="#ffe6cc"
+              strokeWidth="6.5"
+              strokeLinecap="round"
+            />
+            <circle cx="166" cy="56" r="6" fill="#ffe6cc" />
+            <path
+              d="M176 118 C178 110 174 104 176 98"
+              fill="none"
+              stroke="#d59a6e"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.45"
+            />
+            <path
+              d="M182 146 C184 138 180 132 182 126"
+              fill="none"
+              stroke="#d59a6e"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.35"
+            />
           </g>
 
-          <ellipse cx="120" cy="156" rx="56" ry="44" fill="url(#momoFur)" />
-          <ellipse cx="120" cy="168" rx="36" ry="26" fill="url(#momoBelly)" />
+          <ellipse cx="96" cy="188" rx="18" ry="22" fill="url(#momoFur)" />
+          <ellipse cx="144" cy="188" rx="18" ry="22" fill="url(#momoFur)" />
+          <ellipse cx="120" cy="170" rx="32" ry="46" fill="url(#momoFur)" />
+          <ellipse cx="120" cy="176" rx="20" ry="28" fill="url(#momoBelly)" />
 
           <g className="momo-paw-l">
-            <ellipse cx="92" cy="186" rx="17" ry="12" fill="#ffe6cf" />
-            <ellipse cx="86" cy="188" rx="3.2" ry="2.4" fill="#f5b7a0" />
-            <ellipse cx="93" cy="190" rx="3.2" ry="2.4" fill="#f5b7a0" />
-            <ellipse cx="100" cy="188" rx="2.6" ry="2" fill="#f5b7a0" />
+            <ellipse cx="102" cy="210" rx="11" ry="7.2" fill="#ffe8d2" />
+            <ellipse cx="97" cy="212" rx="2.1" ry="1.6" fill="#f0b4a0" />
+            <ellipse cx="102" cy="213" rx="2.1" ry="1.6" fill="#f0b4a0" />
+            <ellipse cx="107" cy="212" rx="1.8" ry="1.4" fill="#f0b4a0" />
           </g>
           <g className="momo-paw-r">
-            <ellipse cx="148" cy="186" rx="17" ry="12" fill="#ffe6cf" />
-            <ellipse cx="142" cy="188" rx="3.2" ry="2.4" fill="#f5b7a0" />
-            <ellipse cx="149" cy="190" rx="3.2" ry="2.4" fill="#f5b7a0" />
-            <ellipse cx="156" cy="188" rx="2.6" ry="2" fill="#f5b7a0" />
+            <ellipse cx="138" cy="210" rx="11" ry="7.2" fill="#ffe8d2" />
+            <ellipse cx="133" cy="212" rx="2.1" ry="1.6" fill="#f0b4a0" />
+            <ellipse cx="138" cy="213" rx="2.1" ry="1.6" fill="#f0b4a0" />
+            <ellipse cx="143" cy="212" rx="1.8" ry="1.4" fill="#f0b4a0" />
           </g>
 
           <g className="momo-ear-l">
-            <path d="M68 92 C58 28 112 48 108 86 Z" fill="url(#momoFur)" />
-            <path d="M74 88 C70 48 104 60 102 84 Z" fill="url(#momoEarIn)" />
+            <path d="M90 90 C80 78 78 40 102 36 C112 34 114 68 110 88 Z" fill="url(#momoFur)" />
+            <path d="M92 86 C86 72 88 48 102 46 C108 46 108 70 106 86 Z" fill="url(#momoEarIn)" />
           </g>
           <g className="momo-ear-r">
-            <path d="M172 92 C182 28 128 48 132 86 Z" fill="url(#momoFur)" />
-            <path d="M166 88 C170 48 136 60 138 84 Z" fill="url(#momoEarIn)" />
+            <path d="M150 90 C160 78 162 40 138 36 C128 34 126 68 130 88 Z" fill="url(#momoFur)" />
+            <path d="M148 86 C154 72 152 48 138 46 C132 46 132 70 134 86 Z" fill="url(#momoEarIn)" />
           </g>
 
-          <circle cx="120" cy="96" r="58" fill="url(#momoFur)" />
-          <ellipse cx="120" cy="118" rx="28" ry="18" fill="#fff6ee" opacity="0.9" />
-          <circle cx="86" cy="116" r="16" fill="#ffc2bc" opacity="0.78" />
-          <circle cx="154" cy="116" r="16" fill="#ffc2bc" opacity="0.78" />
+          <ellipse cx="120" cy="100" rx="40" ry="37" fill="url(#momoFur)" />
+          <path
+            d="M108 74 Q112 84 108 90"
+            fill="none"
+            stroke="#d59a6e"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            opacity="0.42"
+          />
+          <path
+            d="M120 72 Q120 84 120 91"
+            fill="none"
+            stroke="#d59a6e"
+            strokeWidth="2.6"
+            strokeLinecap="round"
+            opacity="0.4"
+          />
+          <path
+            d="M132 74 Q128 84 132 90"
+            fill="none"
+            stroke="#d59a6e"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            opacity="0.42"
+          />
+          <ellipse cx="120" cy="118" rx="14" ry="8" fill="#fff8f0" opacity="0.55" />
+          <ellipse cx="94" cy="114" rx="7.5" ry="3.8" fill="#ffb4ba" opacity="0.38" />
+          <ellipse cx="146" cy="114" rx="7.5" ry="3.8" fill="#ffb4ba" opacity="0.38" />
 
           <g className="momo-eyes">
-            <ellipse cx="98" cy="92" rx="13" ry="15.5" fill="url(#momoEye)" />
-            <ellipse cx="142" cy="92" rx="13" ry="15.5" fill="url(#momoEye)" />
-            <circle cx="93" cy="85" r="4.4" fill="#fff" />
-            <circle cx="137" cy="85" r="4.4" fill="#fff" />
-            <circle cx="102" cy="97" r="1.8" fill="#fff" opacity="0.85" />
-            <circle cx="146" cy="97" r="1.8" fill="#fff" opacity="0.85" />
+            <ellipse cx="104" cy="96" rx="11" ry="13.2" fill="#fffdf6" />
+            <ellipse cx="136" cy="96" rx="11" ry="13.2" fill="#fffdf6" />
+            <ellipse cx="104" cy="97" rx="9.4" ry="11.4" fill="url(#momoIris)" />
+            <ellipse cx="136" cy="97" rx="9.4" ry="11.4" fill="url(#momoIris)" />
+            <ellipse cx="104" cy="98" rx="3.1" ry="6.8" fill="#2a1810" />
+            <ellipse cx="136" cy="98" rx="3.1" ry="6.8" fill="#2a1810" />
+            <circle cx="100.5" cy="91.5" r="3.1" fill="#fff" />
+            <circle cx="132.5" cy="91.5" r="3.1" fill="#fff" />
+            <circle cx="107" cy="101" r="1.15" fill="#fff" opacity="0.85" />
+            <circle cx="139" cy="101" r="1.15" fill="#fff" opacity="0.85" />
           </g>
 
           <g className="momo-heart-eyes">
             <path
-              d="M86 80 C86 72 96 70 99 79 C102 70 112 72 112 80 C112 91 99 100 99 100 C99 100 86 91 86 80Z"
+              d="M93 86 C93 79 102 77 105 85 C108 77 117 79 117 86 C117 96 105 104 105 104 C105 104 93 96 93 86Z"
               fill="#ff6b93"
             />
             <path
-              d="M130 80 C130 72 140 70 143 79 C146 70 156 72 156 80 C156 91 143 100 143 100 C143 100 130 91 130 80Z"
+              d="M125 86 C125 79 134 77 137 85 C140 77 149 79 149 86 C149 96 137 104 137 104 C137 104 125 96 125 86Z"
               fill="#ff6b93"
             />
           </g>
 
           <g className="momo-closed-eyes">
             <path
-              d="M86 94 Q98 104 110 94"
+              d="M94 98 Q104 106 114 98"
               fill="none"
               stroke="#3d2b1f"
-              strokeWidth="3"
+              strokeWidth="2.4"
               strokeLinecap="round"
             />
             <path
-              d="M130 94 Q142 104 154 94"
+              d="M126 98 Q136 106 146 98"
               fill="none"
               stroke="#3d2b1f"
-              strokeWidth="3"
+              strokeWidth="2.4"
               strokeLinecap="round"
             />
           </g>
 
-          <ellipse cx="120" cy="112" rx="6.2" ry="4.4" fill="url(#momoNose)" />
+          <ellipse cx="120" cy="113.5" rx="3.3" ry="2.3" fill="url(#momoNose)" />
           <path
-            d="M120 116 Q108 128 96 121"
+            d="M120 115.6 Q115 119.8 110.5 116.4"
             fill="none"
-            stroke="#3d2b1f"
-            strokeWidth="1.9"
+            stroke="#5a3828"
+            strokeWidth="1.3"
             strokeLinecap="round"
           />
           <path
-            d="M120 116 Q132 128 144 121"
+            d="M120 115.6 Q125 119.8 129.5 116.4"
             fill="none"
-            stroke="#3d2b1f"
-            strokeWidth="1.9"
+            stroke="#5a3828"
+            strokeWidth="1.3"
             strokeLinecap="round"
           />
 
-          <path d="M72 96 H50" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M73 104 H48" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M74 111 H54" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M168 96 H190" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M167 104 H192" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
-          <path d="M166 111 H186" stroke="#d4a07c" strokeWidth="1.4" strokeLinecap="round" />
+          <path d="M86 104 H64" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
+          <path d="M86 111 H62" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
+          <path d="M88 118 H66" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
+          <path d="M154 104 H176" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
+          <path d="M154 111 H178" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
+          <path d="M152 118 H174" stroke="#d4a07c" strokeWidth="1.15" strokeLinecap="round" />
         </g>
       </g>
     </svg>

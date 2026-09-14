@@ -48,8 +48,8 @@ select {
 
 .pet-stack {
   position: relative;
-  width: 220px;
-  height: 230px;
+  width: 210px;
+  height: 236px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,8 +107,8 @@ select {
 
 .pet-cat {
   -webkit-app-region: no-drag;
-  width: 220px;
-  height: 210px;
+  width: 200px;
+  height: 214px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -129,12 +129,12 @@ select {
 }
 
 .momo-bounce {
-  transform-origin: 120px 206px;
+  transform-origin: 120px 226px;
   animation: momo-idle 2.8s ease-in-out infinite;
 }
 
 .momo-actor {
-  transform-origin: 120px 150px;
+  transform-origin: 120px 176px;
 }
 
 .momo-svg.is-acting .momo-bounce {
@@ -149,7 +149,7 @@ select {
 }
 
 .momo-eyes {
-  transform-origin: 120px 92px;
+  transform-origin: 120px 96px;
   animation: momo-blink 4.8s ease-in-out infinite;
 }
 
@@ -158,21 +158,21 @@ select {
 }
 
 .momo-tail {
-  transform-origin: 168px 148px;
+  transform-origin: 150px 176px;
   animation: momo-tail 2.4s ease-in-out infinite;
 }
 
 .momo-ear-l {
-  transform-origin: 88px 72px;
+  transform-origin: 102px 78px;
   animation: momo-ear 5.2s ease-in-out infinite;
 }
 
 .momo-ear-r {
-  transform-origin: 152px 72px;
+  transform-origin: 138px 78px;
 }
 
 .momo-paw-l {
-  transform-origin: 92px 186px;
+  transform-origin: 102px 210px;
 }
 
 .momo-svg.act-roll .momo-actor {
@@ -536,7 +536,7 @@ select {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-7px);
+    transform: translateY(-4px);
   }
 }
 
@@ -566,10 +566,10 @@ select {
 @keyframes momo-tail {
   0%,
   100% {
-    transform: rotate(8deg);
+    transform: rotate(5deg);
   }
   50% {
-    transform: rotate(-14deg);
+    transform: rotate(-10deg);
   }
 }
 
@@ -623,26 +623,26 @@ select {
     transform: rotate(0deg) translate(0, 0);
   }
   25% {
-    transform: rotate(-14deg) translate(-10px, 6px);
+    transform: rotate(-8deg) translate(-6px, 3px);
   }
   55% {
-    transform: rotate(12deg) translate(8px, 4px);
+    transform: rotate(7deg) translate(5px, 2px);
   }
   80% {
-    transform: rotate(-8deg) translate(-4px, 4px);
+    transform: rotate(-4deg) translate(-3px, 2px);
   }
 }
 
 @keyframes act-stretch {
   0%,
   100% {
-    transform: scale(1, 1);
+    transform: rotate(0deg) translate(0, 0) scale(1, 1);
   }
   35% {
-    transform: scale(1.2, 0.8) translateY(10px);
+    transform: rotate(-7deg) translate(8px, 4px) scale(1.05, 0.97);
   }
   60% {
-    transform: scale(0.9, 1.12) translateY(-8px);
+    transform: rotate(0deg) translate(0, -5px) scale(0.98, 1.04);
   }
 }
 
@@ -678,13 +678,13 @@ select {
     transform: translateY(0) scale(1);
   }
   30% {
-    transform: translateY(-16px) scale(1.06);
+    transform: translateY(-10px) scale(1.02);
   }
   55% {
-    transform: translateY(0) scale(0.98);
+    transform: translateY(0) scale(1);
   }
   75% {
-    transform: translateY(-8px) scale(1.03);
+    transform: translateY(-5px) scale(1.015);
   }
 }
 
