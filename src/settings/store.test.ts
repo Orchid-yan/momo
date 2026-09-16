@@ -58,4 +58,31 @@ describe('SettingsStore', () => {
     expect(store.getPublic().hasApiKey).toBe(true)
     expect(store.getPublic().mockMode).toBe(true)
   })
+
+  it('defaults pet prefs and does not wipe them when saving an API key', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'momo-settings-'))
+    const filePath = join(dir, 'settings.json')
+    const store = new SettingsStore({
+      filePath: () => filePath,
+      env: {},
+      mockMode: () => false
+    })
+
+    expect(store.get().alwaysOnTop).toBe(true)
+    expect(store.get().proactiveBubblesEnabled).toBe(true)
+
+    store.save({
+      alwaysOnTop: false,
+      proactiveBubblesEnabled: false,
+      proactiveBubbleIntervalMs: 60_000
+    })
+    store.save({ apiKey: 'sk-mocklocalkey99' })
+
+    const saved = store.get()
+    expect(saved.alwaysOnTop).toBe(false)
+    expect(saved.proactiveBubblesEnabled).toBe(false)
+    expect(saved.proactiveBubbleIntervalMs).toBe(60_000)
+    expect(saved.apiKey).toBe('sk-mocklocalkey99')
+    expect(store.getPublic().alwaysOnTop).toBe(false)
+  })
 })

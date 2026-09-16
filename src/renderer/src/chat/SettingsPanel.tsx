@@ -1,5 +1,11 @@
 import { useEffect, useState, type JSX } from 'react'
 import {
+  BUBBLE_INTERVAL_PRESETS,
+  DEFAULT_ALWAYS_ON_TOP,
+  DEFAULT_PROACTIVE_BUBBLES_ENABLED,
+  DEFAULT_PROACTIVE_INTERVAL_MS
+} from '../../../shared/petLife'
+import {
   BASE_URL_PRESETS,
   DEFAULT_BASE_URL,
   DEFAULT_MODEL,
@@ -21,6 +27,13 @@ export default function SettingsPanel({
   const [apiKey, setApiKey] = useState('')
   const [baseURL, setBaseURL] = useState(DEFAULT_BASE_URL)
   const [model, setModel] = useState(DEFAULT_MODEL)
+  const [alwaysOnTop, setAlwaysOnTop] = useState(DEFAULT_ALWAYS_ON_TOP)
+  const [proactiveBubblesEnabled, setProactiveBubblesEnabled] = useState(
+    DEFAULT_PROACTIVE_BUBBLES_ENABLED
+  )
+  const [proactiveBubbleIntervalMs, setProactiveBubbleIntervalMs] = useState(
+    DEFAULT_PROACTIVE_INTERVAL_MS
+  )
   const [showKey, setShowKey] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -32,6 +45,9 @@ export default function SettingsPanel({
     setApiKey(settings.apiKey)
     setBaseURL(settings.baseURL)
     setModel(settings.model)
+    setAlwaysOnTop(settings.alwaysOnTop)
+    setProactiveBubblesEnabled(settings.proactiveBubblesEnabled)
+    setProactiveBubbleIntervalMs(settings.proactiveBubbleIntervalMs)
   }, [settings])
 
   const presetId =
@@ -40,7 +56,14 @@ export default function SettingsPanel({
   const save = async (): Promise<void> => {
     setSaving(true)
     setSaved(false)
-    const next = await window.momo.saveSettings({ apiKey, baseURL, model })
+    const next = await window.momo.saveSettings({
+      apiKey,
+      baseURL,
+      model,
+      alwaysOnTop,
+      proactiveBubblesEnabled,
+      proactiveBubbleIntervalMs
+    })
     setSaving(false)
     setSaved(true)
     onSaved(next)
@@ -127,6 +150,44 @@ export default function SettingsPanel({
           onChange={(event) => setModel(event.target.value)}
         />
       </div>
+
+      <h3>桌面宠物</h3>
+      <label className="field-check">
+        <input
+          type="checkbox"
+          checked={alwaysOnTop}
+          onChange={(event) => setAlwaysOnTop(event.target.checked)}
+        />
+        <span>始终置顶（默认开启）</span>
+      </label>
+      <label className="field-check">
+        <input
+          type="checkbox"
+          checked={proactiveBubblesEnabled}
+          onChange={(event) => setProactiveBubblesEnabled(event.target.checked)}
+        />
+        <span>允许小猫主动说话（想你了、饿饿、休息提醒等）</span>
+      </label>
+      <div className="field">
+        <label htmlFor="bubble-interval">主动说话间隔</label>
+        <select
+          id="bubble-interval"
+          value={
+            BUBBLE_INTERVAL_PRESETS.some((item) => item.ms === proactiveBubbleIntervalMs)
+              ? String(proactiveBubbleIntervalMs)
+              : String(DEFAULT_PROACTIVE_INTERVAL_MS)
+          }
+          disabled={!proactiveBubblesEnabled}
+          onChange={(event) => setProactiveBubbleIntervalMs(Number(event.target.value))}
+        >
+          {BUBBLE_INTERVAL_PRESETS.map((item) => (
+            <option key={item.ms} value={item.ms}>
+              {item.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <p className="hint">不会随 Windows 开机启动。托盘菜单也可以开关置顶、主动说话，以及让小猫睡觉（隐藏）。</p>
 
       <button className="save-btn" type="button" disabled={saving} onClick={() => void save()}>
         {saving ? '保存中…' : '保存'}

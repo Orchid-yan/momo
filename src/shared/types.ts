@@ -7,12 +7,18 @@ export interface AppSettings {
   apiKey: string
   baseURL: string
   model: string
+  alwaysOnTop: boolean
+  proactiveBubblesEnabled: boolean
+  proactiveBubbleIntervalMs: number
 }
 
 export interface PublicSettings {
   apiKey: string
   baseURL: string
   model: string
+  alwaysOnTop: boolean
+  proactiveBubblesEnabled: boolean
+  proactiveBubbleIntervalMs: number
   hasApiKey: boolean
   mockMode: boolean
   apiKeyLooksValid: boolean

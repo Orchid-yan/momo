@@ -140,8 +140,25 @@ select {
   filter: drop-shadow(0 6px 5px rgba(50, 30, 20, 0.22));
 }
 
-.momo-png-wrap.is-acting .momo-png {
+.momo-png-wrap.is-acting .momo-png,
+.pet-stage.is-dragging .momo-png {
   animation: none;
+}
+
+.momo-png-wrap.is-sleepy .momo-png {
+  animation: momo-sleepy 4.8s ease-in-out infinite;
+}
+
+.momo-png-wrap.is-stretch .momo-png {
+  animation: mood-stretch 1.6s ease-in-out;
+}
+
+.momo-png-wrap.is-hop .momo-png {
+  animation: mood-hop 0.7s ease-in-out;
+}
+
+.momo-png-wrap.is-slide .momo-png {
+  animation: mood-slide 0.85s ease-in-out;
 }
 
 .momo-fx {
@@ -172,6 +189,20 @@ select {
   top: 52px;
   color: #ffe066;
   font-size: 14px;
+}
+
+.momo-fx-zzz {
+  right: 8px;
+  top: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #9a6b58;
+  text-shadow: none;
+}
+
+.momo-png-wrap.is-sleepy .momo-fx-zzz {
+  animation: zzz-float 2.4s ease-in-out infinite;
 }
 
 .momo-png-wrap.act-roll .momo-png {
@@ -420,6 +451,25 @@ select {
   font-size: 16px;
 }
 
+.settings-panel h3 {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+
+.field-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #4a3228;
+}
+
+.field-check input {
+  margin-top: 2px;
+}
+
 .settings-panel .hint {
   margin: 0 0 14px;
   font-size: 12px;
@@ -498,7 +548,65 @@ select {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes momo-sleepy {
+  0%,
+  100% {
+    transform: translateY(4px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes mood-stretch {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  70% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes mood-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes mood-slide {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  45% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes zzz-float {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(4px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-6px);
   }
 }
 

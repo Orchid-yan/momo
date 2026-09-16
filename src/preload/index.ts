@@ -54,6 +54,24 @@ const momo = {
     return () => {
       ipcRenderer.removeListener('chat:show-settings', listener)
     }
+  },
+  onSettingsChanged: (callback: (settings: PublicSettings) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, settings: PublicSettings): void => {
+      callback(settings)
+    }
+    ipcRenderer.on('settings:changed', listener)
+    return () => {
+      ipcRenderer.removeListener('settings:changed', listener)
+    }
+  },
+  onChatVisible: (callback: (visible: boolean) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, visible: boolean): void => {
+      callback(visible)
+    }
+    ipcRenderer.on('pet:chat-visible', listener)
+    return () => {
+      ipcRenderer.removeListener('pet:chat-visible', listener)
+    }
   }
 }
 

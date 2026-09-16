@@ -1,5 +1,6 @@
-import { app, BrowserWindow, screen, shell, type BrowserWindowConstructorOptions } from 'electron'
+import { BrowserWindow, screen, shell, type BrowserWindowConstructorOptions } from 'electron'
 import { join } from 'path'
+import { getSettingsStore } from '../main/store-singleton'
 
 let petWindow: BrowserWindow | null = null
 let chatWindow: BrowserWindow | null = null
@@ -27,6 +28,21 @@ function attachWindowOpenHandler(win: BrowserWindow): void {
   })
 }
 
+function notifyPetChatVisible(): void {
+  if (!petWindow || petWindow.isDestroyed()) {
+    return
+  }
+  petWindow.webContents.send('pet:chat-visible', isChatVisible())
+}
+
+function applyAlwaysOnTop(win: BrowserWindow, enabled: boolean): void {
+  if (enabled) {
+    win.setAlwaysOnTop(true, 'screen-saver')
+    return
+  }
+  win.setAlwaysOnTop(false)
+}
+
 export function createPetWindow(): BrowserWindow {
   if (petWindow && !petWindow.isDestroyed()) {
     return petWindow
@@ -37,6 +53,7 @@ export function createPetWindow(): BrowserWindow {
   const height = 240
   const x = workArea.x + workArea.width - width - 28
   const y = workArea.y + workArea.height - height - 24
+  const alwaysOnTop = getSettingsStore().get().alwaysOnTop
 
   const petOptions: BrowserWindowConstructorOptions = {
     width,
@@ -46,7 +63,7 @@ export function createPetWindow(): BrowserWindow {
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',
-    alwaysOnTop: true,
+    alwaysOnTop,
     skipTaskbar: true,
     movable: true,
     resizable: false,
@@ -56,6 +73,7 @@ export function createPetWindow(): BrowserWindow {
     hasShadow: false,
     show: false,
     roundedCorners: false,
+    focusable: process.platform !== 'win32',
     webPreferences: {
       preload: preloadPath(),
       contextIsolation: true,
@@ -70,8 +88,10 @@ export function createPetWindow(): BrowserWindow {
 
   petWindow = new BrowserWindow(petOptions)
 
-  petWindow.setAlwaysOnTop(true, 'screen-saver')
-  petWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  applyAlwaysOnTop(petWindow, alwaysOnTop)
+  if (alwaysOnTop) {
+    petWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+  }
   attachWindowOpenHandler(petWindow)
   loadView(petWindow, 'pet')
 
@@ -79,11 +99,16 @@ export function createPetWindow(): BrowserWindow {
     petWindow?.showInactive()
   })
 
+  petWindow.on('close', (event) => {
+    if (quitting || process.env.MOMO_SMOKE_TEST === '1') {
+      return
+    }
+    event.preventDefault()
+    petWindow?.hide()
+  })
+
   petWindow.on('closed', () => {
     petWindow = null
-    if (!quitting && process.env.MOMO_SMOKE_TEST !== '1') {
-      app.quit()
-    }
   })
 
   return petWindow
@@ -94,13 +119,15 @@ export function createChatWindow(): BrowserWindow {
     return chatWindow
   }
 
+  const alwaysOnTop = getSettingsStore().get().alwaysOnTop
+
   chatWindow = new BrowserWindow({
     width: 400,
     height: 560,
     frame: false,
     transparent: true,
     backgroundColor: '#00000000',
-    alwaysOnTop: true,
+    alwaysOnTop,
     skipTaskbar: true,
     resizable: true,
     minimizable: false,
@@ -118,7 +145,7 @@ export function createChatWindow(): BrowserWindow {
     }
   })
 
-  chatWindow.setAlwaysOnTop(true, 'screen-saver')
+  applyAlwaysOnTop(chatWindow, alwaysOnTop)
   attachWindowOpenHandler(chatWindow)
   loadView(chatWindow, 'chat')
 
@@ -128,6 +155,14 @@ export function createChatWindow(): BrowserWindow {
     }
     event.preventDefault()
     chatWindow.hide()
+  })
+
+  chatWindow.on('hide', () => {
+    notifyPetChatVisible()
+  })
+
+  chatWindow.on('show', () => {
+    notifyPetChatVisible()
   })
 
   chatWindow.on('closed', () => {
@@ -146,7 +181,7 @@ export function positionChatNearPet(): void {
   let x = workArea.x + workArea.width - chatBounds.width - 280
   let y = workArea.y + workArea.height - chatBounds.height - 36
 
-  if (petWindow && !petWindow.isDestroyed()) {
+  if (petWindow && !petWindow.isDestroyed() && petWindow.isVisible()) {
     const pet = petWindow.getBounds()
     x = pet.x - chatBounds.width - 12
     y = pet.y + pet.height - chatBounds.height
@@ -189,6 +224,46 @@ export function hideChatWindow(): void {
   }
 }
 
+export function isChatVisible(): boolean {
+  return Boolean(chatWindow && !chatWindow.isDestroyed() && chatWindow.isVisible())
+}
+
+export function isPetVisible(): boolean {
+  return Boolean(petWindow && !petWindow.isDestroyed() && petWindow.isVisible())
+}
+
+export function hidePetWindow(): void {
+  if (petWindow && !petWindow.isDestroyed()) {
+    petWindow.hide()
+  }
+}
+
+export function showPetWindow(): void {
+  const pet = createPetWindow()
+  pet.showInactive()
+}
+
+export function togglePetVisible(): boolean {
+  if (isPetVisible()) {
+    hidePetWindow()
+    return false
+  }
+  showPetWindow()
+  return true
+}
+
+export function setWindowsAlwaysOnTop(enabled: boolean): void {
+  if (petWindow && !petWindow.isDestroyed()) {
+    applyAlwaysOnTop(petWindow, enabled)
+    if (enabled) {
+      petWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+    }
+  }
+  if (chatWindow && !chatWindow.isDestroyed()) {
+    applyAlwaysOnTop(chatWindow, enabled)
+  }
+}
+
 export function getPetWindow(): BrowserWindow | null {
   return petWindow
 }
@@ -204,6 +279,7 @@ export function destroyWindows(): void {
     chatWindow.close()
   }
   if (petWindow && !petWindow.isDestroyed()) {
+    petWindow.removeAllListeners('close')
     petWindow.close()
   }
   chatWindow = null

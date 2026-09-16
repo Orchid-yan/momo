@@ -20,6 +20,8 @@ export interface MomoApi {
   endDrag: () => void
   onChatChunk: (callback: (chunk: ChatChunk) => void) => () => void
   onShowSettings: (callback: () => void) => () => void
+  onSettingsChanged: (callback: (settings: PublicSettings) => void) => () => void
+  onChatVisible: (callback: (visible: boolean) => void) => () => void
 }
 
 declare global {

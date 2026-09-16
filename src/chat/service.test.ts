@@ -18,7 +18,10 @@ describe('sendChatMessage wiring', () => {
       settings: {
         apiKey: 'sk-mocklocalkey99',
         baseURL: DEFAULT_BASE_URL,
-        model: DEFAULT_MODEL
+        model: DEFAULT_MODEL,
+        alwaysOnTop: true,
+        proactiveBubblesEnabled: true,
+        proactiveBubbleIntervalMs: 90_000
       },
       client: createMockQwenClient(),
       onDelta: (text) => deltas.push(text)
@@ -34,7 +37,14 @@ describe('sendChatMessage wiring', () => {
   it('refuses to call DashScope when no API key is configured', async () => {
     const result = await sendChatMessage({
       messages: [{ role: 'user', content: 'hi' }],
-      settings: { apiKey: '', baseURL: DEFAULT_BASE_URL, model: DEFAULT_MODEL },
+      settings: {
+        apiKey: '',
+        baseURL: DEFAULT_BASE_URL,
+        model: DEFAULT_MODEL,
+        alwaysOnTop: true,
+        proactiveBubblesEnabled: true,
+        proactiveBubbleIntervalMs: 90_000
+      },
       client: { kind: 'dashscope', streamChat: async () => 'should-not-run' },
       onDelta: () => undefined
     })

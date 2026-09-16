@@ -1,6 +1,12 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'fs'
 import { dirname } from 'path'
 import {
+  clampProactiveIntervalMs,
+  DEFAULT_ALWAYS_ON_TOP,
+  DEFAULT_PROACTIVE_BUBBLES_ENABLED,
+  DEFAULT_PROACTIVE_INTERVAL_MS
+} from '../shared/petLife'
+import {
   DEFAULT_BASE_URL,
   DEFAULT_MODEL,
   type AppSettings,
@@ -39,7 +45,12 @@ export class SettingsStore {
     return {
       apiKey: (stored.apiKey ?? '').trim(),
       baseURL: (stored.baseURL ?? '').trim() || DEFAULT_BASE_URL,
-      model: (stored.model ?? '').trim() || DEFAULT_MODEL
+      model: (stored.model ?? '').trim() || DEFAULT_MODEL,
+      alwaysOnTop: stored.alwaysOnTop ?? DEFAULT_ALWAYS_ON_TOP,
+      proactiveBubblesEnabled: stored.proactiveBubblesEnabled ?? DEFAULT_PROACTIVE_BUBBLES_ENABLED,
+      proactiveBubbleIntervalMs: clampProactiveIntervalMs(
+        stored.proactiveBubbleIntervalMs ?? DEFAULT_PROACTIVE_INTERVAL_MS
+      )
     }
   }
 
@@ -47,6 +58,7 @@ export class SettingsStore {
     const stored = this.get()
     const env = this.env()
     return {
+      ...stored,
       apiKey: stored.apiKey || (env.DASHSCOPE_API_KEY ?? '').trim(),
       baseURL:
         stored.baseURL && stored.baseURL !== DEFAULT_BASE_URL
@@ -67,6 +79,9 @@ export class SettingsStore {
       apiKey: stored.apiKey,
       baseURL: resolved.baseURL,
       model: resolved.model,
+      alwaysOnTop: stored.alwaysOnTop,
+      proactiveBubblesEnabled: stored.proactiveBubblesEnabled,
+      proactiveBubbleIntervalMs: stored.proactiveBubbleIntervalMs,
       hasApiKey: Boolean(resolved.apiKey) || mockMode,
       mockMode,
       apiKeyLooksValid: stored.apiKey ? looksLikeApiKey(stored.apiKey) : false
@@ -78,7 +93,16 @@ export class SettingsStore {
     const next: AppSettings = {
       apiKey: patch.apiKey !== undefined ? patch.apiKey.trim() : current.apiKey,
       baseURL: patch.baseURL !== undefined ? patch.baseURL.trim() : current.baseURL,
-      model: patch.model !== undefined ? patch.model.trim() : current.model
+      model: patch.model !== undefined ? patch.model.trim() : current.model,
+      alwaysOnTop: patch.alwaysOnTop !== undefined ? Boolean(patch.alwaysOnTop) : current.alwaysOnTop,
+      proactiveBubblesEnabled:
+        patch.proactiveBubblesEnabled !== undefined
+          ? Boolean(patch.proactiveBubblesEnabled)
+          : current.proactiveBubblesEnabled,
+      proactiveBubbleIntervalMs:
+        patch.proactiveBubbleIntervalMs !== undefined
+          ? clampProactiveIntervalMs(patch.proactiveBubbleIntervalMs)
+          : current.proactiveBubbleIntervalMs
     }
     if (!next.baseURL) {
       next.baseURL = DEFAULT_BASE_URL

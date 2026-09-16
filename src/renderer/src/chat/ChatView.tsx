@@ -13,7 +13,12 @@ export default function ChatView(): JSX.Element {
 
   useEffect(() => {
     void window.momo.getSettings().then(setSettings)
-    return window.momo.onShowSettings(() => setPanel('settings'))
+    const stopShow = window.momo.onShowSettings(() => setPanel('settings'))
+    const stopSettings = window.momo.onSettingsChanged(setSettings)
+    return () => {
+      stopShow()
+      stopSettings()
+    }
   }, [])
 
   useEffect(() => {
