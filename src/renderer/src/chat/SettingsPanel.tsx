@@ -2,8 +2,11 @@ import { useEffect, useState, type JSX } from 'react'
 import {
   BUBBLE_INTERVAL_PRESETS,
   DEFAULT_ALWAYS_ON_TOP,
+  DEFAULT_PET_RENDERER,
   DEFAULT_PROACTIVE_BUBBLES_ENABLED,
-  DEFAULT_PROACTIVE_INTERVAL_MS
+  DEFAULT_PROACTIVE_INTERVAL_MS,
+  normalizePetRenderer,
+  type PetRenderer
 } from '../../../shared/petLife'
 import {
   BASE_URL_PRESETS,
@@ -34,6 +37,7 @@ export default function SettingsPanel({
   const [proactiveBubbleIntervalMs, setProactiveBubbleIntervalMs] = useState(
     DEFAULT_PROACTIVE_INTERVAL_MS
   )
+  const [petRenderer, setPetRenderer] = useState<PetRenderer>(DEFAULT_PET_RENDERER)
   const [showKey, setShowKey] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -48,6 +52,7 @@ export default function SettingsPanel({
     setAlwaysOnTop(settings.alwaysOnTop)
     setProactiveBubblesEnabled(settings.proactiveBubblesEnabled)
     setProactiveBubbleIntervalMs(settings.proactiveBubbleIntervalMs)
+    setPetRenderer(normalizePetRenderer(settings.petRenderer))
   }, [settings])
 
   const presetId =
@@ -62,7 +67,8 @@ export default function SettingsPanel({
       model,
       alwaysOnTop,
       proactiveBubblesEnabled,
-      proactiveBubbleIntervalMs
+      proactiveBubbleIntervalMs,
+      petRenderer
     })
     setSaving(false)
     setSaved(true)
@@ -152,6 +158,17 @@ export default function SettingsPanel({
       </div>
 
       <h3>桌面宠物</h3>
+      <div className="field">
+        <label htmlFor="pet-renderer">外形</label>
+        <select
+          id="pet-renderer"
+          value={petRenderer}
+          onChange={(event) => setPetRenderer(normalizePetRenderer(event.target.value))}
+        >
+          <option value="3d">3D宠物（视觉原型）</option>
+          <option value="2d">2D图片</option>
+        </select>
+      </div>
       <label className="field-check">
         <input
           type="checkbox"
@@ -187,7 +204,7 @@ export default function SettingsPanel({
           ))}
         </select>
       </div>
-      <p className="hint">不会随 Windows 开机启动。托盘菜单也可以开关置顶、主动说话，以及让小猫睡觉（隐藏）。</p>
+      <p className="hint">3D 是看感觉的原型，不是最终毛发。可随时切回 2D 图片对比。不会随 Windows 开机启动。托盘菜单也可以开关置顶、主动说话，以及让小猫睡觉（隐藏）。</p>
 
       <button className="save-btn" type="button" disabled={saving} onClick={() => void save()}>
         {saving ? '保存中…' : '保存'}

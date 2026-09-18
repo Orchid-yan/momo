@@ -3,8 +3,10 @@ import { dirname } from 'path'
 import {
   clampProactiveIntervalMs,
   DEFAULT_ALWAYS_ON_TOP,
+  DEFAULT_PET_RENDERER,
   DEFAULT_PROACTIVE_BUBBLES_ENABLED,
-  DEFAULT_PROACTIVE_INTERVAL_MS
+  DEFAULT_PROACTIVE_INTERVAL_MS,
+  normalizePetRenderer
 } from '../shared/petLife'
 import {
   DEFAULT_BASE_URL,
@@ -50,7 +52,8 @@ export class SettingsStore {
       proactiveBubblesEnabled: stored.proactiveBubblesEnabled ?? DEFAULT_PROACTIVE_BUBBLES_ENABLED,
       proactiveBubbleIntervalMs: clampProactiveIntervalMs(
         stored.proactiveBubbleIntervalMs ?? DEFAULT_PROACTIVE_INTERVAL_MS
-      )
+      ),
+      petRenderer: normalizePetRenderer(stored.petRenderer ?? DEFAULT_PET_RENDERER)
     }
   }
 
@@ -82,6 +85,7 @@ export class SettingsStore {
       alwaysOnTop: stored.alwaysOnTop,
       proactiveBubblesEnabled: stored.proactiveBubblesEnabled,
       proactiveBubbleIntervalMs: stored.proactiveBubbleIntervalMs,
+      petRenderer: stored.petRenderer,
       hasApiKey: Boolean(resolved.apiKey) || mockMode,
       mockMode,
       apiKeyLooksValid: stored.apiKey ? looksLikeApiKey(stored.apiKey) : false
@@ -102,7 +106,9 @@ export class SettingsStore {
       proactiveBubbleIntervalMs:
         patch.proactiveBubbleIntervalMs !== undefined
           ? clampProactiveIntervalMs(patch.proactiveBubbleIntervalMs)
-          : current.proactiveBubbleIntervalMs
+          : current.proactiveBubbleIntervalMs,
+      petRenderer:
+        patch.petRenderer !== undefined ? normalizePetRenderer(patch.petRenderer) : current.petRenderer
     }
     if (!next.baseURL) {
       next.baseURL = DEFAULT_BASE_URL

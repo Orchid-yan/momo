@@ -10,6 +10,7 @@ import {
   moodDurationMs,
   nextIdleDelayMs,
   nextProactiveBubble,
+  normalizePetRenderer,
   pickIdleTransition,
   postponeAfterBubble,
   PROACTIVE_BUBBLES,
@@ -93,5 +94,14 @@ describe('proactive bubbles', () => {
     expect(BUBBLE_INTERVAL_PRESETS.some((item) => item.ms === DEFAULT_PROACTIVE_INTERVAL_MS)).toBe(
       true
     )
+  })
+})
+
+describe('normalizePetRenderer', () => {
+  it('defaults the visual prototype to 3D and only switches on an explicit 2d value', () => {
+    expect(normalizePetRenderer(undefined)).toBe('3d')
+    expect(normalizePetRenderer('3d')).toBe('3d')
+    expect(normalizePetRenderer('2d')).toBe('2d')
+    expect(normalizePetRenderer('webgpu')).toBe('3d')
   })
 })

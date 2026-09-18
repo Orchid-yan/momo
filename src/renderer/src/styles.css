@@ -48,8 +48,8 @@ select {
 
 .pet-stack {
   position: relative;
-  width: 180px;
-  height: 210px;
+  width: 200px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,6 +115,25 @@ select {
   box-shadow: none;
   cursor: inherit;
   outline: none;
+  pointer-events: none;
+}
+
+.pet-cat.is-3d {
+  width: 200px;
+  height: 220px;
+}
+
+.momo-3d-wrap {
+  position: relative;
+  width: 200px;
+  height: 220px;
+}
+
+.momo-3d-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
   pointer-events: none;
 }
 
@@ -201,7 +220,8 @@ select {
   text-shadow: none;
 }
 
-.momo-png-wrap.is-sleepy .momo-fx-zzz {
+.momo-png-wrap.is-sleepy .momo-fx-zzz,
+.momo-3d-wrap.is-sleepy .momo-fx-zzz {
   animation: zzz-float 2.4s ease-in-out infinite;
 }
 
@@ -214,7 +234,9 @@ select {
 }
 
 .momo-png-wrap.act-nuzzle .momo-fx-hearts,
-.momo-png-wrap.act-nuzzle .momo-fx-hearts-r {
+.momo-png-wrap.act-nuzzle .momo-fx-hearts-r,
+.momo-3d-wrap.act-nuzzle .momo-fx-hearts,
+.momo-3d-wrap.act-nuzzle .momo-fx-hearts-r {
   animation: hearts-pop 1.15s ease-out;
 }
 
@@ -231,7 +253,9 @@ select {
 }
 
 .momo-png-wrap.act-sparkle .momo-fx-sparkles,
-.momo-png-wrap.act-sparkle .momo-fx-hearts {
+.momo-png-wrap.act-sparkle .momo-fx-hearts,
+.momo-3d-wrap.act-sparkle .momo-fx-sparkles,
+.momo-3d-wrap.act-sparkle .momo-fx-hearts {
   animation: sparkle-twinkle 1.3s ease-out;
 }
 

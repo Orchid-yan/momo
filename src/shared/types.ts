@@ -10,6 +10,7 @@ export interface AppSettings {
   alwaysOnTop: boolean
   proactiveBubblesEnabled: boolean
   proactiveBubbleIntervalMs: number
+  petRenderer: '3d' | '2d'
 }
 
 export interface PublicSettings {
@@ -19,6 +20,7 @@ export interface PublicSettings {
   alwaysOnTop: boolean
   proactiveBubblesEnabled: boolean
   proactiveBubbleIntervalMs: number
+  petRenderer: '3d' | '2d'
   hasApiKey: boolean
   mockMode: boolean
   apiKeyLooksValid: boolean

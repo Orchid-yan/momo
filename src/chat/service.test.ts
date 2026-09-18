@@ -21,7 +21,8 @@ describe('sendChatMessage wiring', () => {
         model: DEFAULT_MODEL,
         alwaysOnTop: true,
         proactiveBubblesEnabled: true,
-        proactiveBubbleIntervalMs: 90_000
+        proactiveBubbleIntervalMs: 90_000,
+        petRenderer: '3d'
       },
       client: createMockQwenClient(),
       onDelta: (text) => deltas.push(text)
@@ -43,7 +44,8 @@ describe('sendChatMessage wiring', () => {
         model: DEFAULT_MODEL,
         alwaysOnTop: true,
         proactiveBubblesEnabled: true,
-        proactiveBubbleIntervalMs: 90_000
+        proactiveBubbleIntervalMs: 90_000,
+        petRenderer: '3d'
       },
       client: { kind: 'dashscope', streamChat: async () => 'should-not-run' },
       onDelta: () => undefined

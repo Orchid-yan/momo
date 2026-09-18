@@ -49,8 +49,8 @@ export function createPetWindow(): BrowserWindow {
   }
 
   const workArea = screen.getPrimaryDisplay().workArea
-  const width = 200
-  const height = 240
+  const width = 240
+  const height = 300
   const x = workArea.x + workArea.width - width - 28
   const y = workArea.y + workArea.height - height - 24
   const alwaysOnTop = getSettingsStore().get().alwaysOnTop

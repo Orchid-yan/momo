@@ -70,11 +70,13 @@ describe('SettingsStore', () => {
 
     expect(store.get().alwaysOnTop).toBe(true)
     expect(store.get().proactiveBubblesEnabled).toBe(true)
+    expect(store.get().petRenderer).toBe('3d')
 
     store.save({
       alwaysOnTop: false,
       proactiveBubblesEnabled: false,
-      proactiveBubbleIntervalMs: 60_000
+      proactiveBubbleIntervalMs: 60_000,
+      petRenderer: '2d'
     })
     store.save({ apiKey: 'sk-mocklocalkey99' })
 
@@ -82,6 +84,7 @@ describe('SettingsStore', () => {
     expect(saved.alwaysOnTop).toBe(false)
     expect(saved.proactiveBubblesEnabled).toBe(false)
     expect(saved.proactiveBubbleIntervalMs).toBe(60_000)
+    expect(saved.petRenderer).toBe('2d')
     expect(saved.apiKey).toBe('sk-mocklocalkey99')
     expect(store.getPublic().alwaysOnTop).toBe(false)
   })

@@ -15,12 +15,15 @@ import {
   moodDurationMs,
   nextIdleDelayMs,
   nextProactiveBubble,
+  normalizePetRenderer,
   pickIdleTransition,
   postponeAfterBubble,
-  type PetMood
+  type PetMood,
+  type PetRenderer
 } from '@shared/petLife'
 import type { PublicSettings } from '@shared/types'
 import MomoCat from './MomoCat'
+import MomoCat3D from './MomoCat3D'
 
 const SPEECH_HOLD_MS = 2800
 
@@ -29,6 +32,7 @@ export default function PetView(): JSX.Element {
   const [mood, setMood] = useState<PetMood>('idle')
   const [action, setAction] = useState<PetAction | null>(null)
   const [bubble, setBubble] = useState<string | null>(null)
+  const [petRenderer, setPetRenderer] = useState<PetRenderer>('3d')
   const actionIndex = useRef(0)
   const bubbleIndex = useRef(0)
   const clickTimer = useRef<number | null>(null)
@@ -153,10 +157,14 @@ export default function PetView(): JSX.Element {
 
   useEffect(() => {
     void window.momo.getSettings().then((settings) => {
+      setPetRenderer(normalizePetRenderer(settings.petRenderer))
       applyPrefs(settings)
       armProactive(firstProactiveAt(Date.now(), settings.proactiveBubbleIntervalMs))
     })
-    const stopSettings = window.momo.onSettingsChanged(applyPrefs)
+    const stopSettings = window.momo.onSettingsChanged((settings) => {
+      setPetRenderer(normalizePetRenderer(settings.petRenderer))
+      applyPrefs(settings)
+    })
     const stopChat = window.momo.onChatVisible((visible) => {
       chatOpen.current = visible
       if (!visible && bubblesEnabled.current) {
@@ -273,10 +281,11 @@ export default function PetView(): JSX.Element {
 
   return (
     <div
-      className={`pet-stage${dragging ? ' is-dragging' : ''}${action ? ` is-acting act-${action}` : ''} mood-${mood}`}
+      className={`pet-stage${dragging ? ' is-dragging' : ''}${action ? ` is-acting act-${action}` : ''} mood-${mood} renderer-${petRenderer}`}
       data-action={action ?? ''}
       data-mood={mood}
       data-bubble={bubble ?? ''}
+      data-renderer={petRenderer}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endGesture}
@@ -294,8 +303,8 @@ export default function PetView(): JSX.Element {
         ) : (
           <div className="pet-hint">拖我走动 · 点我撒娇 · 双击聊天</div>
         )}
-        <div className="pet-cat" aria-label="拖动或点按 Momo，双击打开聊天" data-testid="momo-pet">
-          <MomoCat action={action} mood={mood} />
+        <div className={`pet-cat${petRenderer === '3d' ? ' is-3d' : ''}`} aria-label="拖动或点按 Momo，双击打开聊天" data-testid="momo-pet">
+          {petRenderer === '3d' ? <MomoCat3D action={action} mood={mood} /> : <MomoCat action={action} mood={mood} />}
         </div>
       </div>
     </div>

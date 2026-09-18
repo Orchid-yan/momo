@@ -5,6 +5,13 @@ export type PetMood = 'idle' | 'sleepy' | 'stretch' | 'hop' | 'slide' | 'reactin
 
 export const DEFAULT_ALWAYS_ON_TOP = true
 export const DEFAULT_PROACTIVE_BUBBLES_ENABLED = true
+/** Visual prototype: 3D is the default so it can be judged on a real desktop. */
+export const DEFAULT_PET_RENDERER = '3d'
+export type PetRenderer = '3d' | '2d'
+
+export function normalizePetRenderer(value: unknown): PetRenderer {
+  return value === '2d' ? '2d' : '3d'
+}
 
 /** Base gap between unprompted bubbles. Easy to tune; settings can override. */
 export const DEFAULT_PROACTIVE_INTERVAL_MS = 90_000
