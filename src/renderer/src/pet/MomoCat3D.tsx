@@ -5,10 +5,10 @@ import type { PetAction } from '@shared/petActions'
 import { moodDurationMs, type PetMood } from '@shared/petLife'
 
 /** Apricot / cream from the 2D Momo PNG — stylized, not strand fur. */
-const FUR = '#e39445'
-const FUR_DEEP = '#c96e2c'
-const CREAM = '#f7ead6'
-const PAW = '#fff6ea'
+const FUR = '#ee9b48'
+const FUR_DEEP = '#d4782c'
+const CREAM = '#fff1dc'
+const PAW = '#fffaf2'
 const NOSE = '#ee9aa8'
 const EAR = '#f2b8b0'
 const IRIS = '#4a2c1a'
@@ -45,10 +45,10 @@ export default function MomoCat3D({ action = null, mood = 'idle' }: MomoCat3DPro
           premultipliedAlpha: false,
           powerPreference: 'low-power'
         }}
-        camera={{ position: [0, 0.7, 3.45], fov: 26, near: 0.1, far: 24 }}
+        camera={{ position: [0, 1.05, 3.7], fov: 24, near: 0.1, far: 24 }}
         onCreated={({ gl, camera }) => {
           gl.setClearColor(0x000000, 0)
-          camera.lookAt(0, 0.62, 0)
+          camera.lookAt(0, 0.55, 0)
         }}
         style={{ pointerEvents: 'none', background: 'transparent' }}
       >
@@ -95,7 +95,7 @@ function GingerKitten({ action, mood }: { action: PetAction | null; mood: PetMoo
     let x = 0
     let y = 0
     let roll = 0
-    let yaw = 0.16
+    let yaw = 0.08
     let breath = 1 + Math.sin(t * 2.15) * 0.02
     let headPitch = Math.sin(t * 2.15) * 0.035
     let headYaw = 0
@@ -165,44 +165,45 @@ function GingerKitten({ action, mood }: { action: PetAction | null; mood: PetMoo
 
       <group ref={root}>
         <group ref={body}>
-          <Blob pos={[0, 0.4, 0.02]} rad={0.46} scale={[1.12, 0.92, 1.18]} color={FUR} />
-          <Blob pos={[0, 0.48, 0.22]} rad={0.34} scale={[1, 0.9, 0.95]} color={FUR} />
-          <Blob pos={[0, 0.46, 0.34]} rad={0.26} scale={[0.95, 0.95, 0.7]} color={CREAM} />
-          <Blob pos={[0, 0.62, 0.12]} rad={0.22} scale={[0.7, 0.45, 0.55]} color={FUR_DEEP} />
+          <Blob pos={[0, 0.28, 0.02]} rad={0.4} scale={[1.45, 0.72, 1.12]} color={FUR} />
+          <Blob pos={[-0.34, 0.22, 0.02]} rad={0.2} scale={[0.85, 0.95, 1]} color={FUR} />
+          <Blob pos={[0.34, 0.22, 0.02]} rad={0.2} scale={[0.85, 0.95, 1]} color={FUR} />
+          <Blob pos={[0, 0.32, 0.28]} rad={0.28} scale={[1.05, 0.78, 0.62]} color={CREAM} />
+          <Blob pos={[0, 0.42, 0.08]} rad={0.18} scale={[0.85, 0.4, 0.7]} color={FUR_DEEP} />
         </group>
 
-        <group ref={head} position={[0, 0.92, 0.2]}>
-          <Blob pos={[0, 0, 0]} rad={0.38} scale={[1.02, 0.96, 0.98]} color={FUR} />
-          <Blob pos={[-0.2, -0.06, 0.16]} rad={0.16} color={FUR} />
-          <Blob pos={[0.2, -0.06, 0.16]} rad={0.16} color={FUR} />
-          <Blob pos={[0, 0.14, 0.02]} rad={0.16} scale={[0.7, 0.35, 0.5]} color={FUR_DEEP} />
-          <Blob pos={[0, -0.1, 0.28]} rad={0.17} scale={[1.15, 0.8, 0.75]} color={CREAM} />
+        <group ref={head} position={[0, 0.78, 0.16]}>
+          <Blob pos={[0, 0, 0]} rad={0.36} scale={[1.08, 0.98, 1]} color={FUR} />
+          <Blob pos={[-0.22, -0.08, 0.14]} rad={0.14} color={FUR} />
+          <Blob pos={[0.22, -0.08, 0.14]} rad={0.14} color={FUR} />
+          <Blob pos={[0, 0.12, 0.04]} rad={0.14} scale={[0.75, 0.32, 0.5]} color={FUR_DEEP} />
+          <Blob pos={[0, -0.12, 0.26]} rad={0.16} scale={[1.2, 0.78, 0.72]} color={CREAM} />
           <Ear side={-1} />
           <Ear side={1} />
           <Eye side={-1} />
           <Eye side={1} />
           <group ref={lids}>
-            <Blob pos={[-0.13, 0.08, 0.3]} rad={0.11} scale={[1.05, 0.55, 0.7]} color={FUR} />
-            <Blob pos={[0.13, 0.08, 0.3]} rad={0.11} scale={[1.05, 0.55, 0.7]} color={FUR} />
+            <Blob pos={[-0.13, 0.1, 0.28]} rad={0.11} scale={[1.05, 0.5, 0.65]} color={FUR} />
+            <Blob pos={[0.13, 0.1, 0.28]} rad={0.11} scale={[1.05, 0.5, 0.65]} color={FUR} />
           </group>
-          <mesh position={[0, -0.12, 0.42]} scale={[0.7, 0.5, 0.45]}>
-            <sphereGeometry args={[0.06, 16, 16]} />
+          <mesh position={[0, -0.14, 0.4]} scale={[0.85, 0.55, 0.5]}>
+            <sphereGeometry args={[0.055, 16, 16]} />
             <meshStandardMaterial color={NOSE} roughness={0.35} />
           </mesh>
         </group>
 
-        <group ref={paw} position={[-0.16, 0.12, 0.4]}>
-          <Blob pos={[0, 0, 0]} rad={0.13} scale={[1.05, 0.7, 1.15]} color={PAW} />
+        <group ref={paw} position={[-0.15, 0.07, 0.42]}>
+          <Blob pos={[0, 0, 0]} rad={0.12} scale={[1.15, 0.55, 1.35]} color={PAW} />
         </group>
-        <Blob pos={[0.16, 0.12, 0.4]} rad={0.13} scale={[1.05, 0.7, 1.15]} color={PAW} />
-        <Blob pos={[-0.22, 0.1, -0.06]} rad={0.12} scale={[1, 0.65, 1.1]} color={PAW} />
-        <Blob pos={[0.22, 0.1, -0.06]} rad={0.12} scale={[1, 0.65, 1.1]} color={PAW} />
+        <Blob pos={[0.15, 0.07, 0.42]} rad={0.12} scale={[1.15, 0.55, 1.35]} color={PAW} />
+        <Blob pos={[-0.26, 0.08, -0.12]} rad={0.11} scale={[1.05, 0.55, 1.2]} color={PAW} />
+        <Blob pos={[0.26, 0.08, -0.12]} rad={0.11} scale={[1.05, 0.55, 1.2]} color={PAW} />
 
-        <group ref={tail} position={[0.34, 0.28, -0.12]}>
-          <Blob pos={[0, 0, 0]} rad={0.1} color={FUR} />
-          <Blob pos={[0.1, 0.08, -0.04]} rad={0.09} color={FUR} />
-          <Blob pos={[0.16, 0.18, -0.02]} rad={0.085} color={FUR} />
-          <Blob pos={[0.14, 0.28, 0.04]} rad={0.08} color={CREAM} />
+        <group ref={tail} position={[0.42, 0.22, -0.08]}>
+          <Blob pos={[0, 0, 0]} rad={0.09} color={FUR} />
+          <Blob pos={[0.09, 0.1, -0.03]} rad={0.085} color={FUR} />
+          <Blob pos={[0.12, 0.22, 0]} rad={0.08} color={FUR} />
+          <Blob pos={[0.08, 0.32, 0.06]} rad={0.075} color={CREAM} />
         </group>
       </group>
     </group>
@@ -230,12 +231,12 @@ function Blob({
 
 function Ear({ side }: { side: -1 | 1 }): JSX.Element {
   return (
-    <group position={[side * 0.24, 0.28, 0.02]} rotation={[0.25, side * 0.15, side * -0.55]}>
-      <mesh scale={[0.16, 0.24, 0.1]}>
+    <group position={[side * 0.2, 0.26, 0]} rotation={[0.15, side * 0.1, side * -0.38]}>
+      <mesh scale={[0.15, 0.26, 0.1]}>
         <sphereGeometry args={[1, 18, 18]} />
         <FurMaterial color={FUR} />
       </mesh>
-      <mesh position={[0, 0.02, 0.04]} scale={[0.09, 0.15, 0.05]}>
+      <mesh position={[0, 0.04, 0.045]} scale={[0.07, 0.2, 0.04]}>
         <sphereGeometry args={[1, 14, 14]} />
         <meshStandardMaterial color={EAR} roughness={0.55} />
       </mesh>
